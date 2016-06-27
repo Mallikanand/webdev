@@ -5,6 +5,18 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <p th:text="'Hello, ' + ${name} + '!'" />
+
+<table>
+<tr>
+<td>
+</td>
+<td align="right">
+<a href="/login"><i>Sign In</i></a>
+</td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
 </body>
 </html>
