@@ -1,12 +1,16 @@
 package com.webdev.services.impl;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.webdev.data.dao.MenuDAO;
 import com.webdev.data.model.MenuItem;
+import com.webdev.data.model.MenuType;
 import com.webdev.services.MenuService;
 
 @Service
@@ -18,6 +22,13 @@ public class MenuServiceImpl implements MenuService{
 	@Override
 	public List<MenuItem> getAvailableMenu() {
 		return menuDao.getMenu();
+	}
+
+	@Override
+	public Map<MenuType, MenuItem> getCategorisedItems() {
+		
+		return null;
+		//return getAvailableMenu().stream().collect(Collectors.toMap(MenuItem::getItemName, Function.identity()));
 	}
 
 }

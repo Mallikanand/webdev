@@ -9,9 +9,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.webdev.Application;
 import com.webdev.config.DBConfiguration;
 import com.webdev.data.model.MenuItem;
+import com.webdev.data.model.MenuType;
 import com.webdev.services.MenuService;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 
@@ -31,6 +33,10 @@ public class MenuServiceImplTest {
 		System.out.println(items);
 	}
 
+	public void testGetAvailableMenu2(){
+		Map<MenuType,MenuItem> categorisedItems = menuService.getCategorisedItems();
+	}
+	
 	public MenuService getMenuService() {
 		return menuService;
 	}
