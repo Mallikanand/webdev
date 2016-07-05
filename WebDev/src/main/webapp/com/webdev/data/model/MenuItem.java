@@ -5,14 +5,14 @@ import java.math.BigDecimal;
 public class MenuItem {
 
 	private String itemName;
-	private String menuType;
-	private String foodType;
+	private MenuType menuType;
+	private FoodType foodType;
 	private BigDecimal price;
 	private String inactive;
 	
-	public MenuItem(String itemName, String menuType, String foodType, BigDecimal price, String inactive){
+	public MenuItem(String itemName, MenuType menuType, FoodType foodType, BigDecimal price, String inactive){
 		this.itemName = itemName; 
-		this.menuType = menuType; 
+		this.setMenuType(menuType); 
 		this.foodType = foodType; 
 		this.price = price; 
 		this.inactive = inactive; 
@@ -25,16 +25,16 @@ public class MenuItem {
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-	public String getMenuType() {
+	public MenuType getMenuType() {
 		return menuType;
 	}
-	public void setMenuType(String menuType) {
+	public void setMenuType(MenuType menuType) {
 		this.menuType = menuType;
 	}
-	public String getFoodType() {
+	public FoodType getFoodType() {
 		return foodType;
 	}
-	public void setFoodType(String foodType) {
+	public void setFoodType(FoodType foodType) {
 		this.foodType = foodType;
 	}
 	public BigDecimal getPrice() {
@@ -63,7 +63,7 @@ public class MenuItem {
 		result = prime * result + ((foodType == null) ? 0 : foodType.hashCode());
 		result = prime * result + ((inactive == null) ? 0 : inactive.hashCode());
 		result = prime * result + ((itemName == null) ? 0 : itemName.hashCode());
-		result = prime * result + ((menuType == null) ? 0 : menuType.hashCode());
+		result = prime * result + ((getMenuType() == null) ? 0 : getMenuType().hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		return result;
 	}
@@ -92,10 +92,10 @@ public class MenuItem {
 				return false;
 		} else if (!itemName.equals(other.itemName))
 			return false;
-		if (menuType == null) {
-			if (other.menuType != null)
+		if (getMenuType() == null) {
+			if (other.getMenuType() != null)
 				return false;
-		} else if (!menuType.equals(other.menuType))
+		} else if (!getMenuType().equals(other.getMenuType()))
 			return false;
 		if (price == null) {
 			if (other.price != null)
@@ -104,6 +104,7 @@ public class MenuItem {
 			return false;
 		return true;
 	}
-	
+
+
 	
 }

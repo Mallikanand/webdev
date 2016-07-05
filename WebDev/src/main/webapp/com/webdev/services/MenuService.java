@@ -10,5 +10,5 @@ public interface MenuService {
 
 	public List<MenuItem> getAvailableMenu();
 
-	public Map<MenuType, MenuItem> getCategorisedItems();
+	public Map<MenuType, List<MenuItem>> getCategorisedItems();
 }

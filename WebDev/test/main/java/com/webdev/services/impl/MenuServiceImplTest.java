@@ -33,8 +33,11 @@ public class MenuServiceImplTest {
 		System.out.println(items);
 	}
 
-	public void testGetAvailableMenu2(){
-		Map<MenuType,MenuItem> categorisedItems = menuService.getCategorisedItems();
+	@Test
+	public void testGetCategorisedItems(){
+		Map<MenuType,List<MenuItem>> categorisedItems = menuService.getCategorisedItems();
+		Assert.assertNotNull(categorisedItems);
+		
 	}
 	
 	public MenuService getMenuService() {

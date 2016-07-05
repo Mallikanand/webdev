@@ -2,7 +2,6 @@ package com.webdev.services.impl;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +24,11 @@ public class MenuServiceImpl implements MenuService{
 	}
 
 	@Override
-	public Map<MenuType, MenuItem> getCategorisedItems() {
+	public Map<MenuType, List<MenuItem>> getCategorisedItems() {
 		
-		return null;
-		//return getAvailableMenu().stream().collect(Collectors.toMap(MenuItem::getItemName, Function.identity()));
+		return getAvailableMenu()
+				.stream()
+				.collect(Collectors.groupingBy(MenuItem::getMenuType));
 	}
 
 }

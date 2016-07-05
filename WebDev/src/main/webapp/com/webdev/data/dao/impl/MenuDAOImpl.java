@@ -12,7 +12,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.webdev.data.dao.MenuDAO;
+import com.webdev.data.model.FoodType;
 import com.webdev.data.model.MenuItem;
+import com.webdev.data.model.MenuType;
 
 @Repository
 public class MenuDAOImpl implements MenuDAO{
@@ -29,7 +31,7 @@ public class MenuDAOImpl implements MenuDAO{
 
 			@Override
 			public MenuItem mapRow(ResultSet rs, int rowNum) throws SQLException {
-				MenuItem m = new MenuItem(rs.getString(1), rs.getString(2), rs.getString(3), rs.getBigDecimal(4), rs.getString(4));
+				MenuItem m = new MenuItem(rs.getString(1), MenuType.valueOf(rs.getString(2)), FoodType.valueOf(rs.getString(3)), rs.getBigDecimal(4), rs.getString(4));
 				return m;
 			}
 			
