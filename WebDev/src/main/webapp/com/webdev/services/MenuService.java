@@ -3,12 +3,15 @@ package com.webdev.services;
 import java.util.List;
 import java.util.Map;
 
+import com.webdev.data.model.FoodType;
 import com.webdev.data.model.MenuItem;
 import com.webdev.data.model.MenuType;
 
 public interface MenuService {
 
-	public List<MenuItem> getAvailableMenu();
+	List<MenuItem> getAvailableMenu();
 
-	public Map<MenuType, List<MenuItem>> getCategorisedItems();
+	Map<MenuType, List<MenuItem>> getMenuItemsByMenuType();
+
+	Map<FoodType, List<MenuItem>> getMenuItemsByFoodType();
 }

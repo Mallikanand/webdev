@@ -8,6 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.webdev.Application;
 import com.webdev.config.DBConfiguration;
+import com.webdev.data.model.FoodType;
 import com.webdev.data.model.MenuItem;
 import com.webdev.data.model.MenuType;
 import com.webdev.services.MenuService;
@@ -35,8 +36,11 @@ public class MenuServiceImplTest {
 
 	@Test
 	public void testGetCategorisedItems(){
-		Map<MenuType,List<MenuItem>> categorisedItems = menuService.getCategorisedItems();
-		Assert.assertNotNull(categorisedItems);
+		Map<MenuType, List<MenuItem>> menuItemsByMenuType = menuService.getMenuItemsByMenuType();
+		Assert.assertNotNull(menuItemsByMenuType);
+		
+		Map<FoodType, List<MenuItem>> menuItemsByFoodType = menuService.getMenuItemsByFoodType();
+		Assert.assertNotNull(menuItemsByFoodType);
 		
 	}
 	
