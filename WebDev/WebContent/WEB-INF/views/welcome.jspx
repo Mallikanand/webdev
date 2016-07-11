@@ -1,22 +1,13 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<%@ include file="/WEB-INF/views/include.jsp" %>
+<html>
 <head>
-    <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Available Menu</title>
 </head>
 <body>
 
-<table>
-<tr>
-<td>
-</td>
-<td align="right">
-<a href="/login"><i>Sign In</i></a>
-</td>
-</tr>
-<tr>
-<td></td>
-</tr>
-</table>
+<p>
+</p>
+
+
 </body>
 </html>
