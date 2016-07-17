@@ -17,12 +17,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.webdev.Application;
-import com.webdev.config.DBConfiguration;
-import com.webdev.config.MvcConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes={MvcConfiguration.class,DBConfiguration.class,Application.class})
+@ContextConfiguration(classes={Application.class})
 public class HomeControllerTest {
 
 	@Autowired
@@ -32,14 +30,13 @@ public class HomeControllerTest {
 	
 	@Before
 	public void setup(){
-		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-		
+		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();	
 	}
 	
 	@Test
 	public void testHome() throws Exception {
 
-		this.mockMvc.perform(get("/"))
+		this.mockMvc.perform(get("/home"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("welcome"))
 		.andExpect(model().attributeExists("menuItemsByMenuType"));
