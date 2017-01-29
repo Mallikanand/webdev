@@ -21,17 +21,17 @@ public class HomeController {
 	@Autowired
 	private	MenuService menuService; 
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
      return "redirect:/home";
     }
-	
-	@RequestMapping(value="/home")
+	*/
+	@RequestMapping(value="/")
 	public ModelAndView home(){
 
-		Map<MenuType, List<MenuItem>> menuItemsByMenuType = menuService.getMenuItemsByMenuType();
+		Map<String, List<MenuItem>> menuItemsByMenuType = menuService.getMenuItemsByMenuType();
 		
-		Map<String,Map<MenuType, List<MenuItem>>> model = new HashMap<>();
+		Map<String,Map<String, List<MenuItem>>> model = new HashMap<>();
 		model.put("menuItemsByMenuType", menuItemsByMenuType);
 		
 		return new ModelAndView("home",model);

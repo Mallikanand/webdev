@@ -1,27 +1,24 @@
 package com.webdev.services.impl;
 
+import java.util.List;
+import java.util.Map;
+
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.webdev.Application;
-import com.webdev.config.DBConfiguration;
+import com.webdev.config.BaseConfig;
 import com.webdev.data.model.FoodType;
 import com.webdev.data.model.MenuItem;
 import com.webdev.data.model.MenuType;
 import com.webdev.services.MenuService;
 
-import java.util.List;
-import java.util.Map;
-
-import org.junit.Assert;
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={DBConfiguration.class,Application.class})
+@ContextConfiguration(classes={BaseConfig.class})
 public class MenuServiceImplTest {
-
 
 	@Autowired
 	private MenuService menuService;
@@ -36,12 +33,13 @@ public class MenuServiceImplTest {
 
 	@Test
 	public void testGetCategorisedItems(){
-		Map<MenuType, List<MenuItem>> menuItemsByMenuType = menuService.getMenuItemsByMenuType();
+		Map<String, List<MenuItem>> menuItemsByMenuType = menuService.getMenuItemsByMenuType();
 		Assert.assertNotNull(menuItemsByMenuType);
+		Assert.assertEquals(2,menuItemsByMenuType.get(MenuType.ITALIAN.name()).size());
 		
-		Map<FoodType, List<MenuItem>> menuItemsByFoodType = menuService.getMenuItemsByFoodType();
+		Map<String, List<MenuItem>> menuItemsByFoodType = menuService.getMenuItemsByFoodType();
 		Assert.assertNotNull(menuItemsByFoodType);
-		
+		Assert.assertEquals(5,menuItemsByFoodType.get(FoodType.FOOD.name()).size());
 	}
 	
 	public MenuService getMenuService() {

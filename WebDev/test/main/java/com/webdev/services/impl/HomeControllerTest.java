@@ -36,12 +36,11 @@ public class HomeControllerTest {
 	@Test
 	public void testHome() throws Exception {
 
-		this.mockMvc.perform(get("/home"))
+		this.mockMvc.perform(get("/"))
 		.andExpect(status().isOk())
-		.andExpect(view().name("welcome"))
+		.andExpect(view().name("home"))
 		.andExpect(model().attributeExists("menuItemsByMenuType"));
 		
-
 	}
 
 }

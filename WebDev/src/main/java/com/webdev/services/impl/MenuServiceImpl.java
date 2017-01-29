@@ -26,7 +26,7 @@ public class MenuServiceImpl implements MenuService{
 	}
 
 	@Override
-	public Map<MenuType, List<MenuItem>> getMenuItemsByMenuType() {
+	public Map<String, List<MenuItem>> getMenuItemsByMenuType() {
 		
 		return getAvailableMenu()
 				.stream()
@@ -34,7 +34,7 @@ public class MenuServiceImpl implements MenuService{
 	}
 
 	@Override
-	public Map<FoodType, List<MenuItem>> getMenuItemsByFoodType() {
+	public Map<String, List<MenuItem>> getMenuItemsByFoodType() {
 		
 		return getAvailableMenu()
 				.stream()

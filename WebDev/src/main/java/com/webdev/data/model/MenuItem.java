@@ -2,15 +2,54 @@ package com.webdev.data.model;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+
+//@TypeDef(name="MenuType",typeClass=MenuType.class)
+@Entity
+@Table(name="MenuItem")
 public class MenuItem {
 
+	@Id
+	@Column(name="id")
+	private int id;
+	
+	@Column(name="item_name" , length=50)
 	private String itemName;
-	private MenuType menuType;
-	private FoodType foodType;
+	
+	/*@Type(type="org.hibernate.type.EnumType", 
+		parameters={
+			@Parameter (name="enumClass",value="com.webdev.data.model.MenuType"),
+			@Parameter (name="useNamed",value="true"),
+			@Parameter (name="type",value="12")
+			})*/
+	
+	//TODO: change the type to MenuType Enum
+	@Column(name="menu_type", length=15)
+	private String menuType;
+	
+	//TODO: change the type to FoodType Enum
+	@Column(name="food_type", length=15)
+	private String foodType;
+
+	@Column(name="price", precision=19, scale=2)
 	private BigDecimal price;
+	
+	@Column(name="inactive", length=1)
 	private String inactive;
 	
-	public MenuItem(String itemName, MenuType menuType, FoodType foodType, BigDecimal price, String inactive){
+	/**The default constructor is a MUST for Hibernate to Transform the resultset to this Bean**/
+	public MenuItem(){}
+	
+	public MenuItem(String itemName, String menuType, String foodType, BigDecimal price, String inactive){
 		this.itemName = itemName; 
 		this.setMenuType(menuType); 
 		this.foodType = foodType; 
@@ -25,16 +64,17 @@ public class MenuItem {
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-	public MenuType getMenuType() {
+
+	public String getMenuType() {
 		return menuType;
 	}
-	public void setMenuType(MenuType menuType) {
+	public void setMenuType(String menuType) {
 		this.menuType = menuType;
 	}
-	public FoodType getFoodType() {
+	public String getFoodType() {
 		return foodType;
 	}
-	public void setFoodType(FoodType foodType) {
+	public void setFoodType(String foodType) {
 		this.foodType = foodType;
 	}
 	public BigDecimal getPrice() {
@@ -103,6 +143,14 @@ public class MenuItem {
 		} else if (!price.equals(other.price))
 			return false;
 		return true;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 

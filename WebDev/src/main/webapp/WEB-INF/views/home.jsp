@@ -7,18 +7,18 @@
 
 <p>Available Menu</p>
 <table>
-<tr>
-<th>Name</th>
-<th>Price</th>
-</tr>
-<c:forEach items="${menuItemsByMenuType}" var="menuItemsEntry">
-<c:forEach items="${menuItemsEntry.value}" var="menuItem">
-<tr>
-<td><c:out value="${menuItem.itemName }"/></td>
-<td><c:out value="${menuItem.price }"/></td>
-</tr>
-</c:forEach>
-</c:forEach>
+	<tr>
+	<th>Name</th>
+	<th>Price</th>
+	</tr>
+	<c:forEach items="${menuItemsByMenuType}" var="menuItemsEntry">
+		<c:forEach items="${menuItemsEntry.value}" var="menuItem">
+			<tr>
+				<td><c:out value="${menuItem.itemName }"/></td>
+				<td><c:out value="${menuItem.price }"/></td>
+			</tr>
+		</c:forEach>
+	</c:forEach>
 </table>
 
 </body>

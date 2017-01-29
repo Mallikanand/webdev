@@ -11,7 +11,7 @@ public interface MenuService {
 
 	List<MenuItem> getAvailableMenu();
 
-	Map<MenuType, List<MenuItem>> getMenuItemsByMenuType();
+	Map<String, List<MenuItem>> getMenuItemsByMenuType();
 
-	Map<FoodType, List<MenuItem>> getMenuItemsByFoodType();
+	Map<String, List<MenuItem>> getMenuItemsByFoodType();
 }
