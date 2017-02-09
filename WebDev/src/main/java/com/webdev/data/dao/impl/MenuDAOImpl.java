@@ -14,6 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.webdev.data.dao.MenuDAO;
 import com.webdev.data.model.MenuItem;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 
 @Repository
 public class MenuDAOImpl implements MenuDAO{
@@ -39,7 +44,10 @@ public class MenuDAOImpl implements MenuDAO{
 	}*/
 
 	@Autowired
-	public SessionFactory sessionFactory;
+	private SessionFactory sessionFactory;
+        
+        @PersistenceContext
+        private EntityManager entityManager;
 
 /*	@SuppressWarnings("unchecked")
 	@Override
@@ -65,7 +73,13 @@ public class MenuDAOImpl implements MenuDAO{
 	@Override
 	@Transactional
 	public List<MenuItem> getMenu(){
-		Criteria criteria = sessionFactory.openSession().createCriteria(MenuItem.class);
-		return criteria.list();
+            
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<MenuItem> criteria = criteriaBuilder.createQuery(MenuItem.class);
+            criteria.select(criteria.from(MenuItem.class));
+            
+            return entityManager.createQuery(criteria).getResultList();
+/*		Criteria criteria = sessionFactory.openSession().createCriteria(MenuItem.class);
+            return criteria.list();*/
 	}
 }

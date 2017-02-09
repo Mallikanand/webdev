@@ -18,6 +18,7 @@ public class DBConfiguration {
 				.setType(EmbeddedDatabaseType.H2)
 				.addScript("db/schema.sql")
 				.addScripts("db/data/menu.sql")
+                                .addScripts("db/data/orders.sql")
 				.build();
 		return db;
 	}

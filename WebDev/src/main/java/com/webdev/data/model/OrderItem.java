@@ -4,26 +4,32 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity(name="Order_Item")
 public class OrderItem {
 	
 	@Id
-	@Column(name="order_item_id")
-	public int id;
+        @GeneratedValue
+	private int id;
 	
-	@Column(name="order_id",nullable=false)
-	public Order orderId; 
+	@ManyToOne
+        private Order order; 
 	
-	@Column(name="item_id",nullable=false)
-	public MenuItem item; 
+	@ManyToOne
+	private MenuItem item; 
 	
 	@Column(name="price" ,  precision=19, scale=2, nullable=false)
-	public BigDecimal price;
+	private BigDecimal price;
 	
+        @Column(name="quantity" ,  precision=19, scale=2, nullable=false)
+        private BigDecimal quantity;
+
 	@Column(name="notes",nullable=true)
-	public String notes;
+	private String notes;
 
 	public int getId() {
 		return id;
@@ -33,12 +39,12 @@ public class OrderItem {
 		this.id = id;
 	}
 
-	public Order getOrderId() {
-		return orderId;
+	public Order getOrder() {
+		return order;
 	}
 
-	public void setOrderId(Order orderId) {
-		this.orderId = orderId;
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 
 	public MenuItem getItem() {
@@ -65,14 +71,22 @@ public class OrderItem {
 		this.notes = notes;
 	}
 
+        public BigDecimal getQuantity() {
+            return quantity;
+        }
+
+        public void setQuantity(BigDecimal quantity) {
+            this.quantity = quantity;
+        }
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((item == null) ? 0 : item.hashCode());
 		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
+                result = prime * result + ((quantity == null) ? 0 : quantity.hashCode());
 		return result;
 	}
 
@@ -95,10 +109,10 @@ public class OrderItem {
 				return false;
 		} else if (!notes.equals(other.notes))
 			return false;
-		if (orderId == null) {
-			if (other.orderId != null)
+		if (order == null) {
+			if (other.order != null)
 				return false;
-		} else if (!orderId.equals(other.orderId))
+		} else if (order.getId() != other.order.getId())
 			return false;
 		if (price == null) {
 			if (other.price != null)
@@ -106,11 +120,13 @@ public class OrderItem {
 		} else if (!price.equals(other.price))
 			return false;
 		return true;
+                
+                
 	}
 
 	@Override
 	public String toString() {
-		return "OrderItem [id=" + id + ", orderId=" + orderId + ", item=" + item + ", price=" + price + ", notes="
+		return "OrderItem [id=" + id + ", item=" + item + ", price=" + price + ", notes="
 				+ notes + "]";
 	}
 	

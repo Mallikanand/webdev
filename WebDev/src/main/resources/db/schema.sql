@@ -28,20 +28,28 @@ create table MenuItem (
 
 
 create table Orders (
-	order_id int not null, 
+	id int not null, 
 	placement_date date not null, 
 	delivery_date date not null,
 	status varchar(1) not null, -- O for Open, P for Processing, D for Delivered
 	total_value numeric(19,2) not null,
-	Primary Key (order_id)
+	Primary Key (id)
 );
 
 create table Order_Item (
-	order_item_id int not null,
+	id int not null,
 	order_id int not null, -- FK to Order.id
 	item_id int not null , -- FK to MenuItem.id
 	quantity int not null, 
 	price numeric(19,2) not null, 
 	notes varchar(250),
-	Primary Key (order_item_id)
+	Primary Key (id)
 );
+
+Alter table Order_Item
+Add constraint orderItem_Order_FK
+Foreign Key  (order_id) References Orders;
+
+Alter table Order_Item
+Add Constraint OrderItem_MenuItem_FK
+Foreign Key (item_id) References MenuItem;
