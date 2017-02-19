@@ -71,7 +71,7 @@ public class MenuDAOImpl implements MenuDAO{
 	}
 */	
 	@Override
-	@Transactional
+	@Transactional(value="jpaTransactionManager")
 	public List<MenuItem> getMenu(){
             
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();

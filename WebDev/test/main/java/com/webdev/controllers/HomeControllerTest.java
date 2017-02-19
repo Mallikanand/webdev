@@ -1,4 +1,4 @@
-package com.webdev.services.impl;
+package com.webdev.controllers;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
