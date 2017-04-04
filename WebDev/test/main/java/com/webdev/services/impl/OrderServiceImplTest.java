@@ -52,7 +52,7 @@ public class OrderServiceImplTest {
         o.getItems().stream().forEach(validateItem);
     
         //Assert the Order Value matches value of all Items together...
-        Function<OrderItem,BigDecimal> itemValue = i -> i.getPrice().multiply(i.getQuantity());
+        Function<OrderItem,BigDecimal> itemValue = i -> i.getPrice().multiply(BigDecimal.valueOf(i.getQuantity()));
         Assert.assertTrue(o.getValue().equals(o.getItems().stream()
                                                     .map(itemValue)
                                                     .reduce(BigDecimal.ZERO, BigDecimal::add)));

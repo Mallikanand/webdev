@@ -1,5 +1,6 @@
 package com.webdev.data.util.hibernate;
 
+import java.util.Properties;
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 
@@ -16,6 +17,7 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 @Configuration
@@ -25,16 +27,19 @@ public class HibernateConfig {
     @Bean(name = "entityManagerFactoryBean")
     public LocalContainerEntityManagerFactoryBean getEnttityManagerFactory(DataSource dataSource) {
 
-        LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
-        bean.setDataSource(dataSource);
-        bean.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
-        bean.setPackagesToScan(new String[]{"com.webdev.data.model"});
+        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
+        entityManagerFactory.setDataSource(dataSource);
+        entityManagerFactory.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
+        entityManagerFactory.setPackagesToScan(new String[]{"com.webdev.data.model"});
+        entityManagerFactory.setJpaDialect(new HibernateJpaDialect());
+        entityManagerFactory.setJpaProperties(hibernateJpaProperties());
         
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
         adapter.setShowSql(true);
-        bean.setJpaVendorAdapter(adapter);
         
-        return bean;
+        entityManagerFactory.setJpaVendorAdapter(adapter);
+        
+        return entityManagerFactory;
     }
 
     @Autowired
@@ -42,11 +47,23 @@ public class HibernateConfig {
     public SessionFactory getSessionFactory(DataSource dataSource) {
 
         LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-        sessionBuilder.setProperty("hibernate.show_sql", "true");
+        /*        sessionBuilder.setProperty("hibernate.show_sql", "true");
+        sessionBuilder.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect"); */
         sessionBuilder.addPackages("com.webdev.data.model");
-
+        sessionBuilder.setProperties(hibernateJpaProperties());
+        
         return sessionBuilder.buildSessionFactory();
     }
+    
+    private Properties hibernateJpaProperties() {
+        Properties properties = new Properties();
+
+        properties.put("hibernate.show_sql", "true");
+        properties.put("hibernate.format_sql", "true");
+        properties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+     
+    return properties;
+  }
 
     /*    @Autowired
     @Bean(name = "sessionFactory")
@@ -66,14 +83,14 @@ public class HibernateConfig {
         return sessionFactory;
     }
      */
-    @Autowired
+/*    @Autowired
     @Bean(name = "hibernateTransactionManager")
     public HibernateTransactionManager getTransactionManager(SessionFactory sessionFactory) {
         HibernateTransactionManager tranManager = new HibernateTransactionManager(sessionFactory);
 
         return tranManager;
     }
-    
+*/    
     @Autowired
     @Bean(name="jpaTransactionManager")
     public JpaTransactionManager getJpaTransactionManager(LocalContainerEntityManagerFactoryBean entityManagerFactoryBean){

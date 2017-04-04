@@ -23,24 +23,23 @@ import com.webdev.Application;
 @ContextConfiguration(classes={Application.class})
 public class HomeControllerTest {
 
-	@Autowired
-	private WebApplicationContext wac; 
+    @Autowired
+    private WebApplicationContext wac; 
 
-	private MockMvc mockMvc; 
-	
-	@Before
-	public void setup(){
-		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();	
-	}
-	
-	@Test
-	public void testHome() throws Exception {
+    private MockMvc mockMvc; 
 
-		this.mockMvc.perform(get("/"))
-		.andExpect(status().isOk())
-		.andExpect(view().name("home"))
-		.andExpect(model().attributeExists("menuItemsByMenuType"));
-		
-	}
+    @Before
+    public void setup(){
+            mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();	
+    }
+
+    @Test
+    public void testHome() throws Exception {
+
+        this.mockMvc.perform(get("/"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("home"))
+        .andExpect(model().attributeExists("order"));
+    }
 
 }

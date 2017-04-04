@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -13,7 +14,7 @@ import javax.persistence.ManyToOne;
 public class OrderItem {
 	
 	@Id
-        @GeneratedValue
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@ManyToOne
@@ -25,12 +26,15 @@ public class OrderItem {
 	@Column(name="price" ,  precision=19, scale=2, nullable=false)
 	private BigDecimal price;
 	
-        @Column(name="quantity" ,  precision=19, scale=2, nullable=false)
-        private BigDecimal quantity;
+        @Column(name="quantity" , nullable=false)
+        private int quantity;
 
 	@Column(name="notes",nullable=true)
 	private String notes;
 
+        public OrderItem(){}
+        public OrderItem(int id){this.id = id;}
+        
 	public int getId() {
 		return id;
 	}
@@ -45,6 +49,11 @@ public class OrderItem {
 
 	public void setOrder(Order order) {
 		this.order = order;
+	}
+
+        public OrderItem assignOrder(Order order) {
+		setOrder(order);
+                return this;
 	}
 
 	public MenuItem getItem() {
@@ -71,11 +80,11 @@ public class OrderItem {
 		this.notes = notes;
 	}
 
-        public BigDecimal getQuantity() {
+        public int getQuantity() {
             return quantity;
         }
 
-        public void setQuantity(BigDecimal quantity) {
+        public void setQuantity(int quantity) {
             this.quantity = quantity;
         }
 
@@ -86,7 +95,7 @@ public class OrderItem {
 		result = prime * result + ((item == null) ? 0 : item.hashCode());
 		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
-                result = prime * result + ((quantity == null) ? 0 : quantity.hashCode());
+                result = prime * result + quantity;
 		return result;
 	}
 

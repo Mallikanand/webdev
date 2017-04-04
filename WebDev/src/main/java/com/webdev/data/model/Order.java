@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -20,25 +21,25 @@ import javax.persistence.TemporalType;
 public class Order {
 
 	@Id
-	@GeneratedValue
-	public int id; 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id; 
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="placement_date",nullable=false)
-	public Date placementDate; 
+	private Date placementDate; 
 	
         @Temporal(TemporalType.DATE)
 	@Column(name="delivery_date",nullable=false)
-	public Date deliveryDate;
+	private Date deliveryDate;
 	
 	@Column(name="status" , length=1 , nullable=false)
-	public char status; 
+	private char status; 
 	
 	@Column(name="total_value",  precision=19, scale=2,nullable=false)
-	public BigDecimal value; 
+	private BigDecimal value; 
 
         @OneToMany(targetEntity = OrderItem.class, mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	public Set<OrderItem> items;
+	private Set<OrderItem> items;
 
 	public int getId() {
 		return id;

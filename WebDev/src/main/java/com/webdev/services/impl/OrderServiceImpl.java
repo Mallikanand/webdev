@@ -9,12 +9,17 @@ import com.webdev.data.model.Order;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-	@Autowired
-	private OrderDao orderDao; 
-	
-	@Override
-	public Order getOrder(int orderId) {
-		return orderDao.getOrder(orderId);
-	}
+    @Autowired
+    private OrderDao orderDao; 
+
+    @Override
+    public Order getOrder(int orderId) {
+        return orderDao.getOrder(orderId);
+    }
+
+    @Override
+    public void save(Order order) {
+        orderDao.save(order);
+    }
 
 }

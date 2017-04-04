@@ -35,5 +35,12 @@ public class OrderDaoImpl implements OrderDao {
             return entityManager.createQuery(criteria).getSingleResult();
             
 	}
+        
+        @Override
+        @Transactional(value="jpaTransactionManager",readOnly = false)
+        public void save(Order order){
+            entityManager.persist(order);
+            
+        }
 
 }

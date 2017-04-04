@@ -17,7 +17,7 @@
  * 
  */
 create table MenuItem (
-	id int not null,
+	id bigint identity(1,1) not null,
 	item_name varchar(50) not null, 
 	menu_type varchar(15) not null,-- Indian, Italian, Continental,.. others
 	food_type varchar(15) not null,-- Food, Drink, Condiments,.. others
@@ -28,7 +28,7 @@ create table MenuItem (
 
 
 create table Orders (
-	id int not null, 
+	id bigint identity(1,1) not null, 
 	placement_date date not null, 
 	delivery_date date not null,
 	status varchar(1) not null, -- O for Open, P for Processing, D for Delivered
@@ -37,7 +37,7 @@ create table Orders (
 );
 
 create table Order_Item (
-	id int not null,
+	id bigint identity(1,1) not null,
 	order_id int not null, -- FK to Order.id
 	item_id int not null , -- FK to MenuItem.id
 	quantity int not null, 
