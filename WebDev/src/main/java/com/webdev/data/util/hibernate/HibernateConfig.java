@@ -1,20 +1,12 @@
 package com.webdev.data.util.hibernate;
 
 import java.util.Properties;
-import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.Metadata;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
@@ -42,18 +34,18 @@ public class HibernateConfig {
         return entityManagerFactory;
     }
 
-    @Autowired
-    @Bean(name = "sessionFactory")
-    public SessionFactory getSessionFactory(DataSource dataSource) {
-
-        LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-        /*        sessionBuilder.setProperty("hibernate.show_sql", "true");
-        sessionBuilder.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect"); */
-        sessionBuilder.addPackages("com.webdev.data.model");
-        sessionBuilder.setProperties(hibernateJpaProperties());
-        
-        return sessionBuilder.buildSessionFactory();
-    }
+//    @Autowired
+//    @Bean(name = "sessionFactory")
+//    public SessionFactory getSessionFactory(DataSource dataSource) {
+//
+//        LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
+//        /*        sessionBuilder.setProperty("hibernate.show_sql", "true");
+//        sessionBuilder.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect"); */
+//        sessionBuilder.addPackages("com.webdev.data.model");
+//        sessionBuilder.setProperties(hibernateJpaProperties());
+//        
+//        return sessionBuilder.buildSessionFactory();
+//    }
     
     private Properties hibernateJpaProperties() {
         Properties properties = new Properties();

@@ -2,23 +2,16 @@ package com.webdev.data.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.transform.Transformers;
-import org.hibernate.type.StandardBasicTypes;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.webdev.data.dao.MenuDAO;
 import com.webdev.data.model.MenuItem;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 
 @Repository
 public class MenuDAOImpl implements MenuDAO{
@@ -43,11 +36,12 @@ public class MenuDAOImpl implements MenuDAO{
 		return items;
 	}*/
 
-	@Autowired
+/*	@Autowired
 	private SessionFactory sessionFactory;
         
-        @PersistenceContext
-        private EntityManager entityManager;
+*/        
+	@PersistenceContext
+    private EntityManager entityManager;
 
 /*	@SuppressWarnings("unchecked")
 	@Override

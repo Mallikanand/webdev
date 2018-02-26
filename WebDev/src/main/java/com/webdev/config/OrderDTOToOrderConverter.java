@@ -5,7 +5,7 @@
  */
 package com.webdev.config;
 
-import com.webdev.binding.OrderDTO;
+import com.webdev.binding.OrderBean;
 import com.webdev.binding.OrderItemBean;
 import com.webdev.data.model.Order;
 import com.webdev.data.model.OrderItem;
@@ -23,7 +23,7 @@ import org.springframework.core.convert.converter.Converter;
  *
  * @author mkotra
  */
-public class OrderDTOToOrderConverter implements Converter<OrderDTO,Order> {
+public class OrderDTOToOrderConverter implements Converter<OrderBean,Order> {
 
     private Logger LOG = LoggerFactory.getLogger(this.getClass().getName());
     
@@ -31,7 +31,7 @@ public class OrderDTOToOrderConverter implements Converter<OrderDTO,Order> {
     }
 
     @Override
-    public Order convert(OrderDTO source) {
+    public Order convert(OrderBean source) {
         
         Order order = createBlankOrder();
         Set<OrderItem> items = getOrderItems(source, order);
@@ -42,6 +42,7 @@ public class OrderDTOToOrderConverter implements Converter<OrderDTO,Order> {
 
         order.setItems(items);
         order.setValue(orderValue);
+        order.setUser(source.getUser());
         
         LOG.info("order Value: {}", orderValue);
         
@@ -59,11 +60,11 @@ public class OrderDTOToOrderConverter implements Converter<OrderDTO,Order> {
         return order;
     }
     
-    private Set<OrderItem> getOrderItems(OrderDTO orderDTO, Order order){
-        if(orderDTO == null || orderDTO.getItems() ==null || orderDTO.getItems().isEmpty()) 
+    private Set<OrderItem> getOrderItems(OrderBean orderBean, Order order){
+        if(orderBean == null || orderBean.getItems() ==null || orderBean.getItems().isEmpty()) 
             return new HashSet<>();
         
-        return orderDTO.getItems().stream()
+        return orderBean.getItems().stream()
                 .filter(Objects::nonNull)
                 .filter(itemBean -> itemBean.getQuantity() > 0 ) 
                 .map(OrderItemBean::toOrderItem)

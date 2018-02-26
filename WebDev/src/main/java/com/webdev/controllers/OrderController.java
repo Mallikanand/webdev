@@ -5,18 +5,11 @@
  */
 package com.webdev.controllers;
 
-import com.webdev.binding.OrderDTO;
-import com.webdev.binding.OrderItemBean;
+import com.webdev.binding.OrderBean;
 import com.webdev.data.model.Order;
-import com.webdev.data.model.OrderItem;
 import com.webdev.services.impl.OrderService;
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +39,7 @@ public class OrderController {
     private ConversionService conversionService;
     
     @RequestMapping(value = "captureOrder", method = RequestMethod.POST)
-    public ModelAndView processOrder(@ModelAttribute("order") OrderDTO orderBean, Map<String, Object> model){
+    public ModelAndView processOrder(@ModelAttribute("order") OrderBean orderBean, Map<String, Object> model){
         
         LOG.info("Order Bean is: {} ", orderBean);
         
@@ -59,7 +52,7 @@ public class OrderController {
     }
     
     @RequestMapping(value="getOrder/{orderId}")
-    public ModelAndView showOrder(@ModelAttribute("orderId") int orderId){
+    public ModelAndView getOrder(@ModelAttribute("orderId") int orderId){
         
         LOG.info("Received request to getOrder for orderId: {}",orderId);
         

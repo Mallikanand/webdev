@@ -14,11 +14,11 @@ import javax.persistence.ManyToOne;
 public class OrderItem {
 	
 	@Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@ManyToOne
-        private Order order; 
+    private Order order; 
 	
 	@ManyToOne
 	private MenuItem item; 
@@ -51,9 +51,9 @@ public class OrderItem {
 		this.order = order;
 	}
 
-        public OrderItem assignOrder(Order order) {
-		setOrder(order);
-                return this;
+    public OrderItem assignOrder(Order order) {
+    	setOrder(order);
+        return this;
 	}
 
 	public MenuItem getItem() {

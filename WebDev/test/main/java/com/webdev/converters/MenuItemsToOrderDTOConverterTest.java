@@ -5,7 +5,7 @@
  */
 package com.webdev.converters;
 
-import com.webdev.binding.OrderDTO;
+import com.webdev.binding.OrderBean;
 import com.webdev.binding.OrderItemBean;
 import com.webdev.config.ConverterConfiguration;
 import com.webdev.data.model.MenuItem;
@@ -42,8 +42,8 @@ public class MenuItemsToOrderDTOConverterTest {
 
     @Test
     public void test_null_or_empty() {
-        Assert.assertNull(conversionService.convert(null,OrderDTO.class));
-        Assert.assertNull(conversionService.convert(new HashMap<>(), OrderDTO.class));
+        Assert.assertNull(conversionService.convert(null,OrderBean.class));
+        Assert.assertNull(conversionService.convert(new HashMap<>(), OrderBean.class));
     }
     
     @Test
@@ -56,7 +56,7 @@ public class MenuItemsToOrderDTOConverterTest {
         italianItems.add(new MenuItem("Pizza", "Italian", "FOOD", BigDecimal.ONE, "N"));
         menuItems.put("Italian",italianItems);
         
-        OrderDTO result = conversionService.convert(menuItems,OrderDTO.class);
+        OrderBean result = conversionService.convert(menuItems,OrderBean.class);
         Assert.assertNotNull(result);
          System.out.println(result.getClass().getName());
          

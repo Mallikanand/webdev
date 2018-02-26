@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<p>You have placed the below Order</p>
+<p>Dear ${order.user.userId}, you have placed the below Order</p>
 <table border = 1>
     <tr>
     <th>Item Name</th>

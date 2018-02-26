@@ -1,6 +1,6 @@
 package com.webdev.data.model;
 
-import com.webdev.binding.OrderDTO;
+import com.webdev.binding.OrderBean;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;

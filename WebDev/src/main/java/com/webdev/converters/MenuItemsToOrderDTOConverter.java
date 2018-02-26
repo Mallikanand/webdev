@@ -5,7 +5,7 @@
  */
 package com.webdev.converters;
 
-import com.webdev.binding.OrderDTO;
+import com.webdev.binding.OrderBean;
 import com.webdev.data.model.MenuItem;
 import java.util.List;
 import java.util.Map;
@@ -15,14 +15,14 @@ import org.springframework.core.convert.converter.Converter;
  *
  * @author mkotra
  */
-public class MenuItemsToOrderDTOConverter implements Converter<Map<String,List<MenuItem>>, OrderDTO>{
+public class MenuItemsToOrderDTOConverter implements Converter<Map<String,List<MenuItem>>, OrderBean>{
 
     @Override
-    public OrderDTO convert(Map<String,List<MenuItem>> source) {
+    public OrderBean convert(Map<String,List<MenuItem>> source) {
         if(source == null || source.isEmpty())
             return null;
         
-        OrderDTO order = new OrderDTO();
+        OrderBean order = new OrderBean();
 
         source.entrySet().forEach((entry) -> {
             String menuType = entry.getKey();

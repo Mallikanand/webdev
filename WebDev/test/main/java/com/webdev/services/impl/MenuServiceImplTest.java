@@ -15,6 +15,7 @@ import com.webdev.data.model.FoodType;
 import com.webdev.data.model.MenuItem;
 import com.webdev.data.model.MenuType;
 import com.webdev.services.MenuService;
+import org.springframework.test.annotation.DirtiesContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes={BaseConfig.class})

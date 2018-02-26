@@ -1,20 +1,21 @@
 package com.webdev.services.impl;
 
-import ch.qos.logback.core.CoreConstants;
+import java.math.BigDecimal;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.webdev.config.BaseConfig;
 import com.webdev.data.model.Order;
 import com.webdev.data.model.OrderItem;
-import java.math.BigDecimal;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+import java.util.Set;
 
 @RunWith(value = SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BaseConfig.class})
@@ -24,6 +25,7 @@ public class OrderServiceImplTest {
     @Autowired
     public OrderService orderService;
 
+    
     @Test
     public void test_loadOrders() {
         
@@ -65,6 +67,24 @@ public class OrderServiceImplTest {
         Assert.assertEquals(o.getItems().size(), itemSize);
     }
     
+    @Test
+    public void test_loadOrders_by_User(){
+    	String userId = "a"; 
+    	Set<Order> ordersByUser = orderService.getOrdersByUser(userId);
+    	Assert.assertNotNull(ordersByUser);
+    	Assert.assertEquals(3, ordersByUser.size());
+    	
+    }
+    
+    @Test
+    public void test_valueOf_Orders_by_User(){
+    	String userId = "a"; 
+    	Set<Order> ordersByUser = orderService.getOrdersByUser(userId);
+    	Assert.assertNotNull(ordersByUser);
+    	Assert.assertTrue(new BigDecimal(150).compareTo(ordersByUser.stream().map(o -> o.getValue()).reduce(BigDecimal.ZERO, BigDecimal::add)) == 0);
+    	
+    }
+
     private void prettyPrint(Order o){
         System.out.println("PRINTING ORDER: " + o);
     }

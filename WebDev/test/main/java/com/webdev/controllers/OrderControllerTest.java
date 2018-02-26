@@ -47,17 +47,16 @@ public class OrderControllerTest {
     @Test
     public void test_OrderCapture() throws Exception {
         
-        String[] items = {"Hello"};
-        
-        this.mockMvc.perform(post("/orders/captureOrder").requestAttr("item1", new OrderItemBean()).requestAttr("item2", new OrderItemBean()))
+        this.mockMvc.perform(post("/orders/captureOrder"))//.requestAttr("item1", new OrderItemBean()).requestAttr("item2", new OrderItemBean()))
         .andExpect(status().isOk())
-        .andExpect(view().name("home"))
+        .andExpect(view().name("showOrder"))
         .andExpect(model().attributeExists("order"));   
     }
     
     @Test
     public void test_loadOrders() throws Exception{
-        this.mockMvc.perform(get("/orders/getOrder/1"))//.requestAttr("orderId", 1))
+        
+        this.mockMvc.perform(get("/orders/getOrder/1"))
         .andExpect(status().isOk())
         .andExpect(view().name("showOrder"))
         .andExpect(model().attributeExists("order"));

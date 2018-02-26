@@ -1,6 +1,6 @@
 package com.webdev.controllers;
 
-import com.webdev.binding.OrderDTO;
+import com.webdev.binding.OrderBean;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class HomeController {
     public ModelAndView home(){
 
         Map<String, List<MenuItem>> menuItemsByMenuType = menuService.getMenuItemsByMenuType();
-        OrderDTO order = conversionService.convert(menuItemsByMenuType, OrderDTO.class);
+        OrderBean order = conversionService.convert(menuItemsByMenuType, OrderBean.class);
 
         Map<String,Object> model = new HashMap<>();
         model.put("order",order );
@@ -37,6 +37,6 @@ public class HomeController {
             return menuService;
     }
     public void setMenuService(MenuService menuService) {
-            this.menuService = menuService;
-    }
+		this.menuService = menuService;
+	}
 }

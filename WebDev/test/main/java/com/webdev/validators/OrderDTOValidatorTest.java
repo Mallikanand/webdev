@@ -5,7 +5,7 @@
  */
 package com.webdev.validators;
 
-import com.webdev.binding.OrderDTO;
+import com.webdev.binding.OrderBean;
 import com.webdev.data.model.MenuItem;
 import org.junit.Assert;
 import org.junit.Test;
@@ -39,7 +39,7 @@ public class OrderDTOValidatorTest {
     @Test
     public void test_Empty_DTO(){
         
-        OrderDTO o = new OrderDTO();
+        OrderBean o = new OrderBean();
         Errors errors = new BindException(o, "orderDTO");
         ValidationUtils.invokeValidator(orderDTOValidator,o ,errors );
         
@@ -50,7 +50,7 @@ public class OrderDTOValidatorTest {
     
     @Test
     public void test_Empty_Items(){
-        OrderDTO o = new OrderDTO();
+        OrderBean o = new OrderBean();
         
         o.addItem(new MenuItem(1), "Food", -1);
         Errors errors = new BindException(o, "orderDTO");

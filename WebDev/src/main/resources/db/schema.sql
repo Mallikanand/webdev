@@ -26,13 +26,13 @@ create table MenuItem (
 	Primary Key (id)
 );
 
-
 create table Orders (
 	id bigint identity(1,1) not null, 
 	placement_date date not null, 
 	delivery_date date not null,
 	status varchar(1) not null, -- O for Open, P for Processing, D for Delivered
 	total_value numeric(19,2) not null,
+	user_id varchar(20) null,  --//create an index for this column
 	Primary Key (id)
 );
 
@@ -46,9 +46,22 @@ create table Order_Item (
 	Primary Key (id)
 );
 
+create table User (
+	id bigint identity(1,1) not null,
+	user_id varchar(250) not null unique,
+	first_name varchar(250) not null,
+	last_name varchar(250) not null,
+	gender char(1) not null,
+	Primary Key (id)
+);
+
+Alter table Orders
+Add constraint order_User_FK
+Foreign Key (user_id) References User(user_id);
+
 Alter table Order_Item
 Add constraint orderItem_Order_FK
-Foreign Key  (order_id) References Orders;
+Foreign Key (order_id) References Orders;
 
 Alter table Order_Item
 Add Constraint OrderItem_MenuItem_FK

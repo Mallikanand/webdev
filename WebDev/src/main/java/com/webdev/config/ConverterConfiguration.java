@@ -22,7 +22,7 @@ import org.springframework.core.convert.converter.Converter;
 @Configuration
 public class ConverterConfiguration {
     
-    @Bean("conversionService")
+    @Bean(name = "conversionService")
     public ConversionService getConversionService(){
         ConversionServiceFactoryBean converterFactory = new ConversionServiceFactoryBean();
         converterFactory.setConverters(getConverters());

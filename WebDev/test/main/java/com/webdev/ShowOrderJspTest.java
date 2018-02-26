@@ -33,6 +33,7 @@ public class ShowOrderJspTest {
             ResponseEntity<String> responseEntity = new TestRestTemplate().getForEntity("http://localhost:"+randomPort+"/orders/getOrder/1", String.class);
             Assert.assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
             Assert.assertTrue("Response Body: " + responseEntity.getBody(), responseEntity.getBody().contains("Your Order"));
+            Assert.assertTrue("Response Body: " + responseEntity.getBody(), responseEntity.getBody().contains("Dear a"));
 
             System.out.println("responseBody: " + responseEntity.getBody());
     }

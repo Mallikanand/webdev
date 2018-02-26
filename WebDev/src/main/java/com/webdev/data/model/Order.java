@@ -13,7 +13,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -38,8 +41,13 @@ public class Order {
 	@Column(name="total_value",  precision=19, scale=2,nullable=false)
 	private BigDecimal value; 
 
-        @OneToMany(targetEntity = OrderItem.class, mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+        @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<OrderItem> items;
+        
+        @ManyToOne(optional=false,fetch = FetchType.LAZY)
+        @JoinColumn(name="user_id",updatable=false,nullable=false , referencedColumnName = "user_id")
+        private User user;
+    
 
 	public int getId() {
 		return id;
@@ -152,6 +160,14 @@ public class Order {
     public String toString() {
         return "Order{" + "id=" + id + ", placementDate=" + placementDate + ", deliveryDate=" + deliveryDate + ", status=" + status + ", value=" + value + ", items=" + items + '}';
     }
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
     
     
 } 

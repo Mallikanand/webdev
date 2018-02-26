@@ -5,7 +5,7 @@
  */
 package com.webdev.converters;
 
-import com.webdev.binding.OrderDTO;
+import com.webdev.binding.OrderBean;
 import com.webdev.config.ConverterConfiguration;
 import com.webdev.data.model.MenuItem;
 import com.webdev.data.model.Order;
@@ -41,7 +41,7 @@ public class OrderDTOToOrderConverterTest {
     @Test
     public void test_valid(){
         
-        OrderDTO orderDTO = new OrderDTO(); 
+        OrderBean orderDTO = new OrderBean(); 
         BigDecimal pizzaPrice = new BigDecimal("35.00");
         BigDecimal pastaPrice = new BigDecimal("32.00");
         BigDecimal falafelPrice = new BigDecimal("35.00");

@@ -15,11 +15,12 @@ public class DBConfiguration {
 	public DataSource datasource(){
 		
 		EmbeddedDatabase db = new EmbeddedDatabaseBuilder()
-				.setType(EmbeddedDatabaseType.H2)
-				.addScript("db/schema.sql")
-				.addScripts("db/data/menu.sql")
-                                .addScripts("db/data/orders.sql")
-				.build();
+                    .setType(EmbeddedDatabaseType.H2)
+                    .addScript("db/schema.sql")
+                    .addScript("db/data/menu.sql")
+                    .addScript("db/data/users.sql")
+                    .addScript("db/data/orders.sql")
+                    .build();
 		return db;
 	}
 

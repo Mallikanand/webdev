@@ -5,7 +5,7 @@
  */
 package com.webdev.validators;
 
-import com.webdev.binding.OrderDTO;
+import com.webdev.binding.OrderBean;
 import com.webdev.binding.OrderItemBean;
 import java.util.List;
 import java.util.Objects;
@@ -23,12 +23,12 @@ class OrderDTOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return OrderDTO.class.equals(clazz);
+        return OrderBean.class.equals(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        OrderDTO orderBean = (OrderDTO) target;
+        OrderBean orderBean = (OrderBean) target;
         ValidationUtils.rejectIfEmpty(errors, "items" , "Order_cannot_have_no_items");
         
         if(orderBean.getItems()!=null){

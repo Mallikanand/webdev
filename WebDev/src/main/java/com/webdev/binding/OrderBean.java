@@ -6,6 +6,7 @@
 package com.webdev.binding;
 
 import com.webdev.data.model.MenuItem;
+import com.webdev.data.model.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,11 +16,20 @@ import java.util.Set;
  *
  * @author mkotra
  */
-public class OrderDTO {
+public class OrderBean {
     
     
-    public OrderDTO(){}
+    public OrderBean(){}
     private List<OrderItemBean> items;
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
     
     public List<OrderItemBean> getItems() {
         return items;
@@ -43,6 +53,6 @@ public class OrderDTO {
 
     @Override
     public String toString() {
-        return "OrderDTO{" + "items=" + items + '}';
+        return "OrderBean{items=" + items + '}';
     }
 }
