@@ -49,10 +49,25 @@ create table Order_Item (
 create table User (
 	id bigint identity(1,1) not null,
 	user_id varchar(250) not null unique,
+	password varchar(250) not null,
 	first_name varchar(250) not null,
 	last_name varchar(250) not null,
 	gender char(1) not null,
+	enabled TINYINT NOT NULL DEFAULT 1 ,
 	Primary Key (id)
+);
+
+create table role(
+	role varchar(250) not null, 
+	Primary Key (role)
+);
+
+create table user_role (
+	id bigint identity(1,1) not null, 
+	user_id varchar(250) not null, 
+	role varchar(250) not null, 
+	primary key (id),
+	unique key (user_id, role)
 );
 
 Alter table Orders
@@ -66,3 +81,11 @@ Foreign Key (order_id) References Orders;
 Alter table Order_Item
 Add Constraint OrderItem_MenuItem_FK
 Foreign Key (item_id) References MenuItem;
+
+Alter table user_role
+Add Constraint user_role_user_FK
+Foreign Key (user_id) References User(user_id);
+
+Alter table user_role
+Add Constraint user_role_role_FK
+Foreign Key (role) References role;
