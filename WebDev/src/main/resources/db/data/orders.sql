@@ -5,3 +5,4 @@ insert into Orders(id, placement_date, delivery_date, status, total_value, user_
 insert into Order_Item(id, order_id, item_id, quantity, price, notes) values (1, 1, 1, 1, 30.00, 'Mild Spicy')
 insert into Order_Item(id, order_id, item_id, quantity, price, notes) values (2, 2, 1, 1, 30.00, 'Mild Spicy')
 insert into Order_Item(id, order_id, item_id, quantity, price, notes) values (3, 2, 2, 2, 30.00, 'Mild Spicy')
+insert into Order_Item(id, order_id, item_id, quantity, price, notes) values (4, 3, 4, 2, 30.00, 'Mild Spicy')

@@ -6,9 +6,12 @@
 package com.webdev.controllers;
 
 import com.webdev.binding.OrderBean;
+import com.webdev.data.model.MenuItem;
 import com.webdev.data.model.Order;
+import com.webdev.services.MenuService;
 import com.webdev.services.impl.OrderService;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,12 +37,16 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
     
+    @Autowired 
+    private	MenuService menuService; 
+
+    
     @Autowired
     @Qualifier("conversionService")
     private ConversionService conversionService;
     
-    @RequestMapping(value = "captureOrder", method = RequestMethod.POST)
-    public ModelAndView processOrder(@ModelAttribute("order") OrderBean orderBean, Map<String, Object> model){
+    @RequestMapping(value = "saveOrder", method = RequestMethod.POST)
+    public ModelAndView saveOrder(@ModelAttribute("order") OrderBean orderBean, Map<String, Object> model){
         
         LOG.info("Order Bean is: {} ", orderBean);
         
@@ -50,6 +57,17 @@ public class OrderController {
         
         return displayOrder(order);
     }
+    
+    @RequestMapping(value = "captureOrder", method = RequestMethod.GET)
+    public ModelAndView captureOrder(@ModelAttribute("order") OrderBean orderBean){        
+    	Map<String, List<MenuItem>> menuItemsByMenuType = menuService.getMenuItemsByMenuType();
+	    OrderBean order = conversionService.convert(menuItemsByMenuType, OrderBean.class);
+	
+	    Map<String,Object> model = new HashMap<>();
+	    model.put("order",order );
+	
+	    return new ModelAndView("captureOrder",model);
+	}
     
     @RequestMapping(value="getOrder/{orderId}")
     public ModelAndView getOrder(@ModelAttribute("orderId") int orderId){
