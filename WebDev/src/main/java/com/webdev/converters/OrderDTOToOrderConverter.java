@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.webdev.config;
+package com.webdev.converters;
 
 import com.webdev.binding.OrderBean;
 import com.webdev.binding.OrderItemBean;

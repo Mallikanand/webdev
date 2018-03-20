@@ -9,7 +9,7 @@ import com.webdev.binding.OrderBean;
 import com.webdev.data.model.MenuItem;
 import com.webdev.data.model.Order;
 import com.webdev.services.MenuService;
-import com.webdev.services.impl.OrderService;
+import com.webdev.services.OrderService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,6 +50,8 @@ public class OrderController {
     public ModelAndView saveOrder(@ModelAttribute("order") OrderBean orderBean, Map<String, Object> model){
         
         LOG.info("Order Bean is: {} ", orderBean);
+        
+        //orderBean.setUser(SecurityContextHolder.getContext().getAuthentication());
         
         Order order = conversionService.convert(orderBean,Order.class);
         orderService.save(order);
