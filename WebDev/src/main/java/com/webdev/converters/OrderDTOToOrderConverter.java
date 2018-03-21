@@ -32,7 +32,8 @@ public class OrderDTOToOrderConverter implements Converter<OrderBean,Order> {
 
     @Override
     public Order convert(OrderBean source) {
-        
+        LOG.info("About to place an order with following Items: " + source);
+                
         Order order = createBlankOrder();
         Set<OrderItem> items = getOrderItems(source, order);
 

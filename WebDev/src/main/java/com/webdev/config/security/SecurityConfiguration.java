@@ -24,16 +24,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.antMatchers("/user/**").hasRole("USER")
 			.antMatchers("/login/reset").hasRole("USER")
 			
-			//ADMIN Role
+		//ADMIN Role
 			.antMatchers("/admin/**").hasRole("ADMIN")
 			.antMatchers("/user/delete").hasRole("ADMIN")
 			
-			//All public URLS
+		//All public URLS
 			.antMatchers("/").permitAll()
 			.antMatchers("/home").permitAll()
 			.antMatchers("/menu").permitAll()
 			
-			
+		//FORM BASED LOGIN 
 			.and().formLogin()
 					.loginPage("/login").permitAll()
 			.and().csrf();

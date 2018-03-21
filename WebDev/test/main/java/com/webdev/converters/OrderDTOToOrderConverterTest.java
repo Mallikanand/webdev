@@ -75,6 +75,51 @@ public class OrderDTOToOrderConverterTest {
        
     }
     
+    @Test
+    public void test_valid_with_same_quantities(){
+        
+        OrderBean orderDTO = new OrderBean(); 
+        BigDecimal pizzaPrice = new BigDecimal("32.00");
+        BigDecimal pastaPrice = new BigDecimal("32.00");
+        BigDecimal falafelPrice = new BigDecimal("35.00");
+        
+        Integer pizzaQuantity = 2;
+        Integer pastaQuantity = 2;
+        Integer falafelQuantity = 3;
+        
+        
+        MenuItem pizza = new MenuItem(1);
+        MenuItem pasta = new MenuItem(2);
+        MenuItem falafelWrap = new MenuItem(3);
+        
+        pizza.setPrice(pizzaPrice);
+        pasta.setPrice(pastaPrice);
+        falafelWrap.setPrice(falafelPrice);
+        
+/*        MenuItem pizza = new MenuItem("pizza", "Italian", "FOOD", pizzaPrice, "N");
+        MenuItem pasta = new MenuItem("pasta", "Italian", "FOOD", pastaPrice, "N");
+        
+        MenuItem falafelWrap = new MenuItem("FalafelWrap", "Turkish", "FOOD", falafelPrice, "N");
+        */
+        orderDTO.addItem(pizza, "Italian", pizzaQuantity);
+        orderDTO.addItem(pasta, "Italian", pastaQuantity);
+        orderDTO.addItem(falafelWrap, "Turkish", falafelQuantity);
+        
+        Assert.assertEquals(orderDTO.getItems().size(), 3);
+        
+        Order order = conversionService.convert(orderDTO, Order.class);
+        Assert.assertNotNull(order);
+        
+        BigDecimal pizzaCost = pizzaPrice.multiply(new BigDecimal(pizzaQuantity));
+        BigDecimal pastaCost = pastaPrice.multiply(new BigDecimal(pastaQuantity));
+        BigDecimal falafelCost = falafelPrice.multiply(new BigDecimal(falafelQuantity));
+        
+        BigDecimal orderValue = pizzaCost.add(pastaCost).add(falafelCost);
+        
+        Assert.assertTrue(order.getValue().compareTo(orderValue) == 0);
+       
+    }
+    
     public ConversionService getConversionService() {
         return conversionService;
     }
