@@ -16,6 +16,7 @@
     <c:forEach items="${order.items}" var="orderItem" varStatus="idx">
         <tr>
             <td><c:out value="${orderItem.itemName}"/>
+            	<form:hidden path="items[${idx.index}].itemName"/>
                 <form:hidden path="items[${idx.index}].itemId"/>
                 <form:hidden path="items[${idx.index}].price"/>
             </td>

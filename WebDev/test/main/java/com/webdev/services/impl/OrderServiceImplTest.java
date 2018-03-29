@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.webdev.config.BaseConfig;
 import com.webdev.data.model.Order;
 import com.webdev.data.model.OrderItem;
+import com.webdev.services.OrderService;
+
 import java.util.Set;
 
 @RunWith(value = SpringJUnit4ClassRunner.class)

@@ -8,8 +8,11 @@ package com.webdev.controllers;
 import com.webdev.binding.OrderBean;
 import com.webdev.data.model.MenuItem;
 import com.webdev.data.model.Order;
+import com.webdev.data.model.User;
 import com.webdev.services.MenuService;
-import com.webdev.services.impl.OrderService;
+import com.webdev.services.OrderService;
+import com.webdev.services.UserService;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +21,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,13 +39,15 @@ public class OrderController {
     
     Logger LOG = LoggerFactory.getLogger(this.getClass().getName());
 
+    @Autowired 
+    private UserService userService; 
+    
     @Autowired
     private OrderService orderService;
     
     @Autowired 
     private	MenuService menuService; 
 
-    
     @Autowired
     @Qualifier("conversionService")
     private ConversionService conversionService;
@@ -50,6 +57,9 @@ public class OrderController {
         
         LOG.info("Order Bean is: {} ", orderBean);
         
+        User user = getAuthenticatedUser();
+        orderBean.setUser(user);
+        
         Order order = conversionService.convert(orderBean,Order.class);
         orderService.save(order);
         
@@ -57,6 +67,13 @@ public class OrderController {
         
         return displayOrder(order);
     }
+
+	private User getAuthenticatedUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User)authentication.getPrincipal();
+        User user = userService.getUser(principal.getUsername());
+		return user;
+	}
     
     @RequestMapping(value = "captureOrder", method = RequestMethod.GET)
     public ModelAndView captureOrder(@ModelAttribute("order") OrderBean orderBean){        
@@ -105,5 +122,23 @@ public class OrderController {
     public void setConversionService(ConversionService conversionService) {
         this.conversionService = conversionService;
     }
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
+	public MenuService getMenuService() {
+		return menuService;
+	}
+
+	public void setMenuService(MenuService menuService) {
+		this.menuService = menuService;
+	}
+    
+    
 
 }

@@ -1,4 +1,4 @@
-package com.webdev.services.impl;
+package com.webdev.services;
 
 import java.util.List;
 

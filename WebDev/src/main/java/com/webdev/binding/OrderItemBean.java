@@ -75,7 +75,10 @@ public class OrderItemBean{
     public OrderItem toOrderItem(){
         OrderItem orderItem = new OrderItem();
         
-        orderItem.setItem(new MenuItem(this.itemId));
+        MenuItem menuItem = new MenuItem(this.itemId);
+        menuItem.setItemName(itemName);
+        
+        orderItem.setItem(menuItem);
         orderItem.setPrice(this.price);
         orderItem.setQuantity(this.quantity);
         return orderItem;

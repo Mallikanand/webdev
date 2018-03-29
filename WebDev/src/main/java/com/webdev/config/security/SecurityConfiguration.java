@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -24,18 +25,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.antMatchers("/user/**").hasRole("USER")
 			.antMatchers("/login/reset").hasRole("USER")
 			
-			//ADMIN Role
+		//ADMIN Role
 			.antMatchers("/admin/**").hasRole("ADMIN")
 			.antMatchers("/user/delete").hasRole("ADMIN")
 			
-			//All public URLS
+		//All public URLS
 			.antMatchers("/").permitAll()
 			.antMatchers("/home").permitAll()
 			.antMatchers("/menu").permitAll()
 			
-			
+		//FORM BASED LOGIN 
 			.and().formLogin()
 					.loginPage("/login").permitAll()
+			.and().logout().logoutSuccessUrl("/")
 			.and().csrf();
 		
 			

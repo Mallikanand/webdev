@@ -120,6 +120,10 @@ public class MenuItem {
             if (getClass() != obj.getClass())
                     return false;
             MenuItem other = (MenuItem) obj;
+            
+	        if (id != other.id)
+	            return false;
+        
             if (foodType == null) {
                     if (other.foodType != null)
                             return false;

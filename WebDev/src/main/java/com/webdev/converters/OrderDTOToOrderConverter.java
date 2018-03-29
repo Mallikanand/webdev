@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.webdev.config;
+package com.webdev.converters;
 
 import com.webdev.binding.OrderBean;
 import com.webdev.binding.OrderItemBean;
@@ -32,7 +32,8 @@ public class OrderDTOToOrderConverter implements Converter<OrderBean,Order> {
 
     @Override
     public Order convert(OrderBean source) {
-        
+        LOG.info("About to place an order with following Items: " + source);
+                
         Order order = createBlankOrder();
         Set<OrderItem> items = getOrderItems(source, order);
 
