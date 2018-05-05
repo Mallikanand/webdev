@@ -75,7 +75,7 @@ public class OrderController {
 		return user;
 	}
     
-    @RequestMapping(value = "captureOrder", method = RequestMethod.GET)
+    @RequestMapping(value = "captureOrder", method = RequestMethod.POST)
     public ModelAndView captureOrder(@ModelAttribute("order") OrderBean orderBean){        
     	Map<String, List<MenuItem>> menuItemsByMenuType = menuService.getMenuItemsByMenuType();
 	    OrderBean order = conversionService.convert(menuItemsByMenuType, OrderBean.class);

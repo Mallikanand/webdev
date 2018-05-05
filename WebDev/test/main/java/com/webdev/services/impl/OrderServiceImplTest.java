@@ -1,6 +1,7 @@
 package com.webdev.services.impl;
 
 import java.math.BigDecimal;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -12,15 +13,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.webdev.config.BaseConfig;
+import com.webdev.config.TestBaseConfig;
 import com.webdev.data.model.Order;
 import com.webdev.data.model.OrderItem;
 import com.webdev.services.OrderService;
 
-import java.util.Set;
-
 @RunWith(value = SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BaseConfig.class})
+@ContextConfiguration(classes = {TestBaseConfig.class})
 @EnableTransactionManagement
 public class OrderServiceImplTest {
 

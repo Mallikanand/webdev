@@ -9,7 +9,7 @@
 <tr>
 <td>
 <p>Available Menu</p>
-<form:form action="/orders/captureOrder" modelAttribute="order" method="GET">
+<form:form action="/orders/captureOrder" modelAttribute="order" method="POST">
 	<table>
 	    <tr>
 	    <th>Name</th>
