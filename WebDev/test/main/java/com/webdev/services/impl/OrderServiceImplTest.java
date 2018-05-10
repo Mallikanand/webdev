@@ -9,18 +9,15 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import com.webdev.config.TestBaseConfig;
+import com.webdev.annotations.DefaultTestConfig;
 import com.webdev.data.model.Order;
 import com.webdev.data.model.OrderItem;
 import com.webdev.services.OrderService;
 
-@RunWith(value = SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {TestBaseConfig.class})
-@EnableTransactionManagement
+@RunWith(value = SpringRunner.class)
+@DefaultTestConfig
 public class OrderServiceImplTest {
 
     @Autowired
