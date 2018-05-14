@@ -1,5 +1,0 @@
-insert into MenuItem(id,item_name, menu_type, food_type, price, inactive) values (1,'VEG BIRGYANI', 'INDIAN', 'FOOD', 35.00, 'Y')
-insert into MenuItem(id,item_name, menu_type, food_type, price, inactive) values (2,'PASTA', 'ITALIAN', 'FOOD', 35.00, 'Y')
-insert into MenuItem(id,item_name, menu_type, food_type, price, inactive) values (3,'PIZZA', 'ITALIAN', 'FOOD', 35.00, 'Y')
-insert into MenuItem(id,item_name, menu_type, food_type, price, inactive) values (4,'BURRITO', 'MEXICAN', 'FOOD', 35.00, 'Y')
-insert into MenuItem(id,item_name, menu_type, food_type, price, inactive) values (5,'SALAD', 'OTHER', 'FOOD', 35.00, 'Y')

@@ -11,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-@Entity(name = "User")
+@Entity(name = "Users")
 public class User implements Serializable{
 
     @Id

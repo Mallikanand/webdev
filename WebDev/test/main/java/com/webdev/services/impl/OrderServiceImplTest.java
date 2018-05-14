@@ -1,6 +1,7 @@
 package com.webdev.services.impl;
 
 import java.math.BigDecimal;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -8,20 +9,15 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import com.webdev.config.BaseConfig;
+import com.webdev.annotations.DefaultTestConfig;
 import com.webdev.data.model.Order;
 import com.webdev.data.model.OrderItem;
 import com.webdev.services.OrderService;
 
-import java.util.Set;
-
-@RunWith(value = SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BaseConfig.class})
-@EnableTransactionManagement
+@RunWith(value = SpringRunner.class)
+@DefaultTestConfig
 public class OrderServiceImplTest {
 
     @Autowired

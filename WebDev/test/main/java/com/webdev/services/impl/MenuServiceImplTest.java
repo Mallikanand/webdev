@@ -7,18 +7,16 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import com.webdev.config.BaseConfig;
+import com.webdev.annotations.DefaultTestConfig;
 import com.webdev.data.model.FoodType;
 import com.webdev.data.model.MenuItem;
 import com.webdev.data.model.MenuType;
 import com.webdev.services.MenuService;
-import org.springframework.test.annotation.DirtiesContext;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={BaseConfig.class})
+@RunWith(SpringRunner.class)
+@DefaultTestConfig
 public class MenuServiceImplTest {
 
 	@Autowired

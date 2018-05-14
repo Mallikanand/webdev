@@ -15,6 +15,8 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 @Configuration
 public class HibernateConfig {
 
+	public static final String DIALECT = "org.hibernate.dialect.PostgreSQLDialect";
+	
     @Autowired
     @Bean(name = "entityManagerFactoryBean")
     public LocalContainerEntityManagerFactoryBean getEnttityManagerFactory(DataSource dataSource) {
@@ -34,55 +36,17 @@ public class HibernateConfig {
         return entityManagerFactory;
     }
 
-//    @Autowired
-//    @Bean(name = "sessionFactory")
-//    public SessionFactory getSessionFactory(DataSource dataSource) {
-//
-//        LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-//        /*        sessionBuilder.setProperty("hibernate.show_sql", "true");
-//        sessionBuilder.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect"); */
-//        sessionBuilder.addPackages("com.webdev.data.model");
-//        sessionBuilder.setProperties(hibernateJpaProperties());
-//        
-//        return sessionBuilder.buildSessionFactory();
-//    }
-    
     private Properties hibernateJpaProperties() {
         Properties properties = new Properties();
 
         properties.put("hibernate.show_sql", "true");
         properties.put("hibernate.format_sql", "true");
-        properties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+        properties.put("hibernate.dialect", System.getProperty("hibernate_dialect" , DIALECT));
      
     return properties;
-  }
-
-    /*    @Autowired
-    @Bean(name = "sessionFactory")
-    public SessionFactory getSessionFactory(DataSource dataSource) {
-
-        SessionFactory sessionFactory;
-
-        StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
-                //.configure( "org/hibernate/example/hibernate.cfg.xml" )
-                .build();
-
-        Metadata metadata = new MetadataSources(standardRegistry)
-                .addAnnotatedClassName("com.webdev.data.model")
-                .getMetadataBuilder()
-                .build();
-        sessionFactory = metadata.getSessionFactoryBuilder().build();
-        return sessionFactory;
+    
     }
-     */
-/*    @Autowired
-    @Bean(name = "hibernateTransactionManager")
-    public HibernateTransactionManager getTransactionManager(SessionFactory sessionFactory) {
-        HibernateTransactionManager tranManager = new HibernateTransactionManager(sessionFactory);
 
-        return tranManager;
-    }
-*/    
     @Autowired
     @Bean(name="jpaTransactionManager")
     public JpaTransactionManager getJpaTransactionManager(LocalContainerEntityManagerFactoryBean entityManagerFactoryBean){

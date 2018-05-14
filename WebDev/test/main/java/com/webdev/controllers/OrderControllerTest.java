@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -28,7 +29,8 @@ import org.springframework.web.context.WebApplicationContext;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes={Application.class})
+//@ContextConfiguration(classes={Application.class})  //////////????? TODO: Is this right?
+@SpringBootTest
 public class OrderControllerTest {
 
     @Autowired
@@ -49,7 +51,7 @@ public class OrderControllerTest {
         
         this.mockMvc.perform(post("/orders/captureOrder"))//.requestAttr("item1", new OrderItemBean()).requestAttr("item2", new OrderItemBean()))
         .andExpect(status().isOk())
-        .andExpect(view().name("showOrder"))
+        .andExpect(view().name("captureOrder"))
         .andExpect(model().attributeExists("order"));   
     }
     

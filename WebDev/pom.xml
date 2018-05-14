@@ -39,6 +39,7 @@
 	<dependency>
 	    <groupId>com.h2database</groupId>
 	    <artifactId>h2</artifactId>
+	    <scope>test</scope>
 	</dependency>
 	<!-- https://mvnrepository.com/artifact/jstl/jstl -->
 	<dependency>
@@ -62,7 +63,32 @@
 	    <version>4.2.4.RELEASE</version>
 	    <scope>test</scope>
 	</dependency>
-
+	<dependency>
+	    <groupId>postgresql</groupId>
+	    <artifactId>postgresql</artifactId>
+	    <version>9.1-901-1.jdbc4</version>
+	</dependency>
+<!-- 	<dependency>
+	    <groupId>com.mchange</groupId>
+	    <artifactId>c3p0</artifactId>
+	    <version>0.9.5.2</version>
+	</dependency>
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-c3p0</artifactId>
+		<version>4.1.0.Final</version>
+	</dependency>
+	https://mvnrepository.com/artifact/com.mchange/mchange-commons-java
+	<dependency>
+	    <groupId>com.mchange</groupId>
+	    <artifactId>mchange-commons-java</artifactId>
+	    <version>0.2.11</version>
+	</dependency> -->
+	<dependency>
+	    <groupId>org.apache.commons</groupId>
+	    <artifactId>commons-dbcp2</artifactId>
+	    <version>2.2.0</version>
+	</dependency>
   </dependencies>
   
   <parent>

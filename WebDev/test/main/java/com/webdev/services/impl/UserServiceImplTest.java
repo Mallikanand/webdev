@@ -1,20 +1,19 @@
 package com.webdev.services.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import com.webdev.config.BaseConfig;
+import com.webdev.annotations.DefaultTestConfig;
 import com.webdev.data.model.User;
 import com.webdev.services.UserService;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={BaseConfig.class})
+@RunWith(SpringRunner.class)
+@DefaultTestConfig
 public class UserServiceImplTest {
 
 	@Autowired
