@@ -1,28 +1,38 @@
 <template>
     <div id="main" class="main">
         <show-menu :displayMenu="displayMenu"></show-menu>
-
         <show-order :displayOrders="displayOrderHistory"></show-order>
     </div>
 </template>
 
 <script>
-import Order from './Order.vue'
-import Menu from './Menu.vue'
+import Order from "./Order.vue";
+import Menu from "./Menu.vue";
+import { eventBus } from "../main";
 
 export default {
   data() {
-      return{
-        displayMenu: true,
-        displayOrderHistory: true
-    }
+    return {
+      displayMenu: true,
+      displayOrderHistory: false
+    };
   },
-  components:{
-      'show-order': Order,
-      'show-menu': Menu
+  components: {
+    "show-order": Order,
+    "show-menu": Menu
+  },
+  created() {
+    eventBus.$on('leftMenuClick', selectedMenuOption => {
+      if (selectedMenuOption.option_ref == '#menu') {
+        this.displayMenu = true;
+        this.displayOrderHistory = false;
+      }
+      if (selectedMenuOption.option_ref == '#orderHistory') {
+        this.displayMenu = false;
+        this.displayOrderHistory = true;
+      }
+    });
   }
-
-
 };
 </script>
 <style>

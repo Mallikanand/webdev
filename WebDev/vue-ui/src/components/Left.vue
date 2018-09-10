@@ -1,14 +1,15 @@
 <template>
     <div id="left"  class="left">
         <ul class="menu">
-            <li v-on:click="toggleIfRequired(menu)" v-for="menu in menu_options" :key="menu.option">
+            <li v-on:click="toggleAsRequired(menu)" v-for="menu in menus" :key="menu.option">
                 <a :href="menu.option_ref">{{ menu.option  }}</a></li>
         </ul>
     </div>
 </template>
 
 <script>
-  import Main from "./Main.vue";
+import Main from "./Main.vue";
+import { eventBus } from "../main";
 
 export default {
   components: {
@@ -16,7 +17,7 @@ export default {
   },
   data() {
     return {
-      menu_options: [
+      menus: [
         { option: "Who We Are", option_ref: "#aboutUs", active: "true" },
         {
           option: "Login To Your Account",
@@ -35,15 +36,8 @@ export default {
     };
   },
   methods: {
-      toggleIfRequired: function(currentOption){ 
-         if(currentOption.option_ref == '#menu'){
-             //clicked on menu - so donot show Orders 
-             Main.displayOrderHistory = false;
-         }
-         if(currentOption.option_ref == '#orderHistory'){
-             //clicked on Orders - so donot show menu 
-             Main.displayMenu = false;
-         }
+      toggleAsRequired: function(selectedMenuOption){ 
+        eventBus.$emit('leftMenuClick',selectedMenuOption);
       }
   }
 };
