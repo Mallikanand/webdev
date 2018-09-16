@@ -192,7 +192,7 @@ export default {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 #orders td, #orders th,
@@ -208,7 +208,7 @@ export default {
 
 #orders tr:hover {
   background-color: #ddd;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 #orders th,

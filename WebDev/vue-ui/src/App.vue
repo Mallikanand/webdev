@@ -57,14 +57,13 @@ export default {
   background-color: rgba(255, 255, 255, 0.863);
   text-align: center;
   padding: 20px 20px;
-  font-size: 30px;
 }
 
 @media (max-width: 600px) {
   .grid-container {
     grid-template-areas:
       "header header header header header header"
-      "menu menu menu menu menu menu"
+      "left left left left left left"
       "main main main main main main"
       "right right right right right right"
       "footer footer footer footer footer footer";

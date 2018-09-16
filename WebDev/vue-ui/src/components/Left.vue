@@ -1,6 +1,6 @@
 <template>
     <div id="left"  class="left">
-        <ul class="menu">
+        <ul class="leftnav">
             <li v-on:click="toggleAsRequired(menu)" v-for="menu in menus" :key="menu.option">
                 <a :href="menu.option_ref">{{ menu.option  }}</a></li>
         </ul>
@@ -38,12 +38,13 @@ export default {
   methods: {
       toggleAsRequired: function(selectedMenuOption){ 
         eventBus.$emit('leftMenuClick',selectedMenuOption);
+        
       }
   }
 };
 </script>
 <style >
-.menu {
+.leftnav {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -51,7 +52,7 @@ export default {
   text-align: left;
 }
 
-.menu > li a {
+.leftnav > li a {
   display: block;
   color: #000;
   text-decoration: none;
@@ -59,7 +60,7 @@ export default {
   font-size: 20px;
 }
 
-.menu > li a:hover {
+.leftnav > li a:hover {
   color: white;
   background-color: #a4a4a4;
 }
