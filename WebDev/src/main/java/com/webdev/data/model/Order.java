@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import javax.persistence.CascadeType;
 
 import javax.persistence.Column;
@@ -19,6 +21,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.webdev.data.model.dto.OrderDTO;
 
 @Entity(name="Orders")
 public class Order {
@@ -41,13 +45,13 @@ public class Order {
 	@Column(name="total_value",  precision=19, scale=2,nullable=false)
 	private BigDecimal value; 
 
-        @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<OrderItem> items;
-        
-        @ManyToOne(optional=false,fetch = FetchType.LAZY)
-        @JoinColumn(name="user_id",updatable=false,nullable=false , referencedColumnName = "user_id")
-        private User user;
     
+    @ManyToOne(optional=false,fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id",updatable=false,nullable=false , referencedColumnName = "user_id")
+    private User user;
+
 
 	public int getId() {
 		return id;
@@ -167,6 +171,22 @@ public class Order {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public OrderDTO toOrderDTO(){
+		
+		
+		return new OrderDTO(
+				this.id,
+				this.placementDate,
+				this.deliveryDate,
+				this.status,
+				this.value,
+				this.items.stream()
+				.map(i -> i.toOrderItemDTO())
+				.collect(Collectors.toSet()),
+				this.user.toUserDTO());
+		
 	}
     
     

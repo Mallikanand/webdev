@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.webdev.data.model.dto.MenuItemDTO;
+import com.webdev.data.model.dto.OrderItemDTO;
+
 @Entity(name="Order_Item")
 public class OrderItem {
 	
@@ -139,6 +142,8 @@ public class OrderItem {
 				+ notes + "]";
 	}
 	
-	
+	public OrderItemDTO toOrderItemDTO(){
+		return new OrderItemDTO(this.id,this.order.getId(),this.item.toMenuItemDTO(),this.price,this.quantity,this.notes);
+	}
 
 }

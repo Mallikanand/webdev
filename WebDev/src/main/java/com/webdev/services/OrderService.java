@@ -10,5 +10,6 @@ public interface OrderService {
     public Order getOrder(int i);
     public void save(Order order);
 	public Set<Order> getOrdersByUser(String userId);
+	public Set<Order> getAllOrders();
 
 }

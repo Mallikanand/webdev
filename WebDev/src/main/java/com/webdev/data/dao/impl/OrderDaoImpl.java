@@ -1,10 +1,13 @@
 package com.webdev.data.dao.impl;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.Subgraph;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -57,6 +60,21 @@ public class OrderDaoImpl implements OrderDao {
         User user = query.getSingleResult();
         return user.getOrders();
     }
+    
+    @Override
+    public Set<Order> getAllOrders() {
+
+    	List<Order> orders = entityManager.createNativeQuery("select * from orders", Order.class).getResultList();
+    	
+		return orders.stream().collect(Collectors.toSet());
+       
+        
+/*        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Order> query = criteriaBuilder.createQuery(Order.class);
+        List<Order> resultList = entityManager.createQuery(query).getResultList();
+        
+        return resultList.stream().collect(Collectors.toSet());
+*/    }
     
     private EntityGraph<User> createUserOrderGraph(){
         

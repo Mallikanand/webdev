@@ -1,6 +1,8 @@
 package com.webdev.data.model;
 
 import com.webdev.binding.OrderBean;
+import com.webdev.data.model.dto.MenuItemDTO;
+
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
@@ -159,4 +161,9 @@ public class MenuItem {
     public void setId(int id) {
             this.id = id;
     }
+    
+    public MenuItemDTO toMenuItemDTO(){
+    	return new MenuItemDTO(this.id,this.itemName,this.menuType,this.foodType,this.price,this.inactive);
+    }
 }
+

@@ -9,6 +9,7 @@ import com.webdev.binding.OrderBean;
 import com.webdev.data.model.MenuItem;
 import com.webdev.data.model.Order;
 import com.webdev.data.model.User;
+import com.webdev.data.model.dto.OrderDTO;
 import com.webdev.services.MenuService;
 import com.webdev.services.OrderService;
 import com.webdev.services.UserService;
@@ -16,6 +17,9 @@ import com.webdev.services.UserService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +28,19 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
  * @author mkotra
  */
-@Controller
+@RestController
 @RequestMapping("/orders/")
 public class OrderController {
     
@@ -95,6 +102,20 @@ public class OrderController {
         
         LOG.info("loaded the order: {} and attempting to display the following view: {} " , order, "showOrder");
         return displayOrder(order);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value="getAllOrders",produces = "application/json")
+    public Set<OrderDTO> getAllOrders(){
+        
+        LOG.info("Received request to getAllOrders for user:");
+        
+        Set<Order> orders = orderService.getAllOrders();
+        
+        LOG.info("loaded the all orders: {} " , orders.size());
+        return orders.stream()
+        		.map(o -> o.toOrderDTO())
+        		.collect(Collectors.toSet());
     }
 
     private ModelAndView displayOrder(Order order) {

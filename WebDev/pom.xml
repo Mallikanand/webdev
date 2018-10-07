@@ -3,7 +3,7 @@
   <groupId>WebDev</groupId>
   <artifactId>WebDev</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <testSourceDirectory>test/main/java</testSourceDirectory>

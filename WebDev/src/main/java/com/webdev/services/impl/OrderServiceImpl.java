@@ -1,6 +1,6 @@
 package com.webdev.services.impl;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import com.webdev.data.dao.OrderDao;
 import com.webdev.data.model.Order;
 import com.webdev.services.OrderService;
-
-import java.util.Set;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -29,8 +27,12 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Set<Order> getOrdersByUser(String userId) {
-		
 		return orderDao.getOrdersByUser(userId);
+	}
+
+	@Override
+	public Set<Order> getAllOrders() {
+		return orderDao.getAllOrders();
 	}
 
 }

@@ -10,4 +10,5 @@ public interface OrderDao {
     public Order getOrder(int orderId);
     public void save(Order order);
     public Set<Order> getOrdersByUser(String userId);
+	Set<Order> getAllOrders();
 }
