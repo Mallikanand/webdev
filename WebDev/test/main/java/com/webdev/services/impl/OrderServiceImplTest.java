@@ -71,8 +71,7 @@ public class OrderServiceImplTest {
     	Set<Order> ordersByUser = orderService.getOrdersByUser(userId);
     	Assert.assertNotNull(ordersByUser);
     	Assert.assertEquals(3, ordersByUser.size());
-    	
-    }
+   }
     
     @Test
     public void test_valueOf_Orders_by_User(){

@@ -33,10 +33,6 @@ export default {
   },
 
   methods: {
-    getOrders: function() {
-      //console.log("hello")
-      this.$http.get("http://localhost:8080/orders/getAllOrders");
-    }
   }
 };
 </script>

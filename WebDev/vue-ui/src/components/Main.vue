@@ -30,6 +30,21 @@ export default {
       if (selectedMenuOption.option_ref == '#orderHistory') {
         this.displayMenu = false;
         this.displayOrderHistory = true;
+           
+        this.$http.get("http://localhost:8080/orders/getAllOrders"
+        /*,
+                                              {
+                                                headers: {
+                                                  'Access-Control-Allow-Origin': 'http://localhost:3000'
+                                              }
+                                              }
+          */                                    
+         ).then(function(orderHistory){
+          // console.log(orderHistory);
+           eventBus.$emit('orderHistoryReloaded',orderHistory);
+         })
+        
+    
       }
     });
   }

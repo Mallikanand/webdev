@@ -8,7 +8,7 @@
             <th>Placement Date</th>
             <th>Delivery Date</th>
             <th>Order Status</th>
-            <tr v-bind:key="order.id" v-for="order in Orders.orderhistory" v-on:click="displayOrderDetails(order)">
+            <tr v-bind:key="order.id" v-for="order in Orders" v-on:click="displayOrderDetails(order)">
                 <td>{{ order.id }}</td>
                 <td>{{ order.value }} </td>
                 <td>{{ order.placementDate }} </td>
@@ -32,7 +32,7 @@
             <th>Item Name</th>
             <th>Item Price</th>
             <th>Item Quantity</th>
-            <tr :key="item.id" v-for="item in currentOrder.orderItems">
+            <tr :key="item.id" v-for="item in currentOrder.items">
                 <td>{{item.id}}</td>
                 <td>{{item.itemName}}</td>
                 <td>{{item.price}}</td>
@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import { eventBus } from "../main";
+
 export default {
   props: ['displayOrders'],
   name: "Order",
@@ -59,11 +61,16 @@ export default {
       this.showOrders = true;
     }
   },
+  created(){
+    eventBus.$on('orderHistoryReloaded', ordersHistory => {
+      this.Orders = ordersHistory.body;
+    })
+  },
   data() {
     return {
       showOrders: true,
-      Orders: {
-        orderhistory: [
+      Orders: null,
+     /* Orders: [
           {
             id: 1,
             value: "100",
@@ -181,8 +188,7 @@ export default {
               { id: 1014, itemName: "Miso Soup", price: "25.00", quantity: 10 }
             ]
           }
-        ]
-      }
+      ]*/
     };
   }
 };

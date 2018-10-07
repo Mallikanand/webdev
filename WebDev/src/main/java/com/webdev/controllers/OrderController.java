@@ -104,13 +104,27 @@ public class OrderController {
         return displayOrder(order);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins="http://localhost:3000",allowedHeaders="*")
     @RequestMapping(value="getAllOrders",produces = "application/json")
     public Set<OrderDTO> getAllOrders(){
         
         LOG.info("Received request to getAllOrders for user:");
         
         Set<Order> orders = orderService.getAllOrders();
+        
+        LOG.info("loaded the all orders: {} " , orders.size());
+        return orders.stream()
+        		.map(o -> o.toOrderDTO())
+        		.collect(Collectors.toSet());
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value="getAllOrders/{userId}",produces = "application/json")
+    public Set<OrderDTO> getAllOrders(@ModelAttribute("userId") String userId){
+        
+        LOG.info("Received request to getAllOrders for user:");
+        
+        Set<Order> orders = orderService.getOrdersByUser(userId);
         
         LOG.info("loaded the all orders: {} " , orders.size());
         return orders.stream()

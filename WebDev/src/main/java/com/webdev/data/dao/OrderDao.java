@@ -1,9 +1,8 @@
 package com.webdev.data.dao;
 
-import java.util.List;
+import java.util.Set;
 
 import com.webdev.data.model.Order;
-import java.util.Set;
 
 public interface OrderDao {
 
