@@ -35,7 +35,7 @@ public class Order {
 	@Column(name="placement_date",nullable=false)
 	private Date placementDate; 
 	
-        @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
 	@Column(name="delivery_date",nullable=false)
 	private Date deliveryDate;
 	

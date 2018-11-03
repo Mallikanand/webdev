@@ -54,9 +54,11 @@ public class OrderDTOToOrderConverter implements Converter<OrderBean,Order> {
     private Order createBlankOrder(){
 
         Order order = new Order();
-            order.setPlacementDate(new Date());
-            order.setDeliveryDate(new Date());
-            order.setStatus('P');
+        
+        //TODO: should these be here ?
+        order.setPlacementDate(new Date());
+        order.setDeliveryDate(new Date());
+        order.setStatus('P');
 
         return order;
     }

@@ -26,6 +26,12 @@ export default {
       if (selectedMenuOption.option_ref == '#menu') {
         this.displayMenu = true;
         this.displayOrderHistory = false;
+
+        this.$http.get("http://localhost:8080/menu")
+          .then(function(response){
+            eventBus.$emit('menuReloaded',response.body);
+          })
+        
       }
       if (selectedMenuOption.option_ref == '#orderHistory') {
         this.displayMenu = false;
@@ -39,9 +45,8 @@ export default {
                                               }
                                               }
           */                                    
-         ).then(function(orderHistory){
-          // console.log(orderHistory);
-           eventBus.$emit('orderHistoryReloaded',orderHistory);
+         ).then(function(response){
+           eventBus.$emit('orderHistoryReloaded',response.body);
          })
         
     

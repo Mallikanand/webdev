@@ -9,9 +9,10 @@
                     <th>{{regionalItems.region}}</th>
                     <tr v-for="item in regionalItems.items" v-bind:key="item.id">
                         <td id="itemName">{{item.itemName}}</td>
-                        <!--td id="itemCategory">{{item.category}}</td-->
+                        <!-- comment below line> 
+                        <td id="itemCategory">{{item.category}}</td-->
                         <td id="itemDesc">{{item.desc}}</td>
-                        <td id="itemPrice">rs. {{item.price}}</td>
+                        <td id="itemPrice">&#8377; {{item.price}}</td>
                         <td>
                             <input v-on:click="addToBasket(item)"       type="button"   value="+"/>
                             <input v-on:blur ="adjustQuantity(item)"    type="text"     v-model="item.newQuantity" size="4"/>
@@ -24,6 +25,7 @@
     </ul>
 
 </div>
+
 </template>
 
 <script>
@@ -44,6 +46,10 @@ export default {
             }
         }
     });
+    eventBus.$on('menuReloaded', menuItemsFromServer => {
+      this.menuItemsMap = [];
+      this.convertToUIFormat(menuItemsFromServer);
+    })
   },
   methods: {
     addToBasket: function(item) {
@@ -71,16 +77,45 @@ export default {
     },
     publishOrderModifiedEvent: function(item){
         eventBus.$emit('orderItemsModified',item);
+    }, 
+    convertToUIFormat: function(menuItemsFromServer){
+
+      Object.keys(menuItemsFromServer).forEach(key => {
+      var menuItems = [] ;
+          menuItemsFromServer[key].forEach(menuItem => {
+          menuItems.push({
+              'id': menuItem.id,
+              'itemName': menuItem.itemName,
+              'desc': "Empty Desc",
+              'menuType': menuItem.menuType,
+              'category': menuItem.foodType,
+              'price': menuItem.price,
+              'quantity': 0,
+              'newQuantity': 0
+          });
+        });
+        
+        this.menuItemsMap.push({
+          'region': key,
+          'items' : menuItems
+        })
+      })
     }
   },
   data() {
     return {
-      menuItemsMap: [
+      
+      menuItemsMapFromServer: {
+        "OTHER"   :	[	{"id":5,"itemName":"SALAD","menuType":"OTHER","foodType":"FOOD","price":35.00,"inactive":"N"  },{"id":6,"itemName":"SALAD","menuType":"OTHER","foodType":"FOOD","price":35.00,"inactive":"N"  }],
+        "ITALIAN" :	[	{"id":2,"itemName":"PASTA","menuType":"ITALIAN","foodType":"FOOD","price":35.00,"inactive":"N"}]
+      },
+      menuItemsMap: []
+      /*menuItemsMap: [
         {
           region: "ITALIAN",
           items: [
             {
-              id: 1001,
+              id: 1,
               itemName: "PASTA",
               desc:
                 "Description of PASTA and its ingredients, nutrition info .. ",
@@ -91,7 +126,7 @@ export default {
               newQuantity: 0
             },
             {
-              id: 1002,
+              id: 2,
               itemName: "PIZZA",
               desc:
                 "Type of Pizza, double crest of single, toppings, nutrition info etc.. ",
@@ -102,7 +137,7 @@ export default {
               newQuantity: 0
             },
             {
-              id: 1003,
+              id: 3,
               itemName: "LASAGNE",
               desc: "Type of Lasange, ingredients, nutrition info etc..",
               menuType: "ITALIAN",
@@ -117,7 +152,7 @@ export default {
           region: "MEXICAN",
           items: [
             {
-              id: 1004,
+              id: 4,
               itemName: "BURRITO",
               desc: "Burrito speciality, Ingredients, nutrition info etc ... ",
               menuType: "MEXICAN",
@@ -132,7 +167,7 @@ export default {
           region: "JAPANESE",
           items: [
             {
-              id: 1005,
+              id: 5,
               itemName: "MISO SOUP",
               desc: "Details of the soup .. ",
               menuType: "JAPANESE",
@@ -142,7 +177,7 @@ export default {
               newQuantity: 0
             },
             {
-              id: 1006,
+              id: 6,
               itemName: "TOFU CURRY",
               desc:
                 "Details and introduction to the delicacy, Nutrition info etc ...",
@@ -153,7 +188,7 @@ export default {
               newQuantity: 0
             },
             {
-              id: 1007,
+              id: 7,
               itemName: "TOFU YAKISOBA",
               desc:
                 "Details and introduction to the delicacy, Nutrition info etc ...",
@@ -164,7 +199,7 @@ export default {
               newQuantity: 0
             },
             {
-              id: 1008,
+              id: 8,
               itemName: "VEG TANMEN",
               desc:
                 "Details and introduction to the delicacy, Nutrition info etc ...",
@@ -180,7 +215,7 @@ export default {
           region: "OTHER",
           items: [
             {
-              id: 1009,
+              id: 9,
               itemName: "SALAD",
               desc: "Type of Salad, Ingredients, Nutrition info etc .. ",
               menuType: "OTHER",
@@ -191,7 +226,7 @@ export default {
             }
           ]
         }
-      ]
+      ]*/
     };
   }
 };

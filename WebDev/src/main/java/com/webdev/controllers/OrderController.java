@@ -9,15 +9,18 @@ import com.webdev.binding.OrderBean;
 import com.webdev.data.model.MenuItem;
 import com.webdev.data.model.Order;
 import com.webdev.data.model.User;
+import com.webdev.data.model.dto.Basket;
 import com.webdev.data.model.dto.OrderDTO;
 import com.webdev.services.MenuService;
 import com.webdev.services.OrderService;
 import com.webdev.services.UserService;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -30,6 +33,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -59,13 +63,12 @@ public class OrderController {
     @Qualifier("conversionService")
     private ConversionService conversionService;
     
-    @RequestMapping(value = "saveOrder", method = RequestMethod.POST)
+    @RequestMapping(value = "saveOrderUsingJSP", method = RequestMethod.POST)
     public ModelAndView saveOrder(@ModelAttribute("order") OrderBean orderBean, Map<String, Object> model){
         
         LOG.info("Order Bean is: {} ", orderBean);
         
-        User user = getAuthenticatedUser();
-        orderBean.setUser(user);
+        enrichOrderBean(orderBean);
         
         Order order = conversionService.convert(orderBean,Order.class);
         orderService.save(order);
@@ -75,6 +78,11 @@ public class OrderController {
         return displayOrder(order);
     }
 
+	private void enrichOrderBean(OrderBean orderBean) {
+		User user = getAuthenticatedUser();
+        orderBean.setUser(user);
+	}
+
 	private User getAuthenticatedUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User)authentication.getPrincipal();
@@ -83,18 +91,18 @@ public class OrderController {
 	}
     
     @RequestMapping(value = "captureOrder", method = RequestMethod.POST)
-    public ModelAndView captureOrder(@ModelAttribute("order") OrderBean orderBean){        
+    public ModelAndView captureOrder(){        
     	Map<String, List<MenuItem>> menuItemsByMenuType = menuService.getMenuItemsByMenuType();
-	    OrderBean order = conversionService.convert(menuItemsByMenuType, OrderBean.class);
+	    OrderBean orderBean = conversionService.convert(menuItemsByMenuType, OrderBean.class);
 	
 	    Map<String,Object> model = new HashMap<>();
-	    model.put("order",order );
+	    model.put("order",orderBean );
 	
 	    return new ModelAndView("captureOrder",model);
 	}
     
-    @RequestMapping(value="getOrder/{orderId}")
-    public ModelAndView getOrder(@ModelAttribute("orderId") int orderId){
+    @RequestMapping(value="jsp/getOrder/{orderId}")
+    public ModelAndView getOrderForJsp(@ModelAttribute("orderId") int orderId){
         
         LOG.info("Received request to getOrder for orderId: {}",orderId);
         
@@ -130,6 +138,53 @@ public class OrderController {
         return orders.stream()
         		.map(o -> o.toOrderDTO())
         		.collect(Collectors.toSet());
+    }
+    
+    @CrossOrigin(origins="http://localhost:3000",allowedHeaders="*")
+    @RequestMapping(value="saveOrder", method=RequestMethod.POST, consumes="application/json", produces="application/json")
+    public OrderDTO submitOrder(@RequestBody Basket basket){
+    	
+    	LOG.info("received Order Request: " + basket);
+    	validateBasket(basket);
+    	
+    	OrderBean orderBean = createOrderBeanForBasket(basket);
+    	Order order = conversionService.convert(orderBean, Order.class);
+    	orderService.save(order);
+    	
+    	return order.toOrderDTO();
+    }
+
+	private void validateBasket(Basket basket) {
+		assert basket.getUserId() != null;
+    	assert basket.getItems()!=null && basket.getItems().length>0;
+	}
+
+	private OrderBean createOrderBeanForBasket(Basket basket) {
+		OrderBean orderBean = new OrderBean();
+    	//orderBean.setUser(getAuthenticatedUser());//TODO
+    	Map<Integer, MenuItem> availabeMenu = menuService.getAvailableMenu().stream().collect(Collectors.toMap(MenuItem::getId, Function.identity()));
+    	
+    	orderBean.setUser(userService.getUser(basket.getUserId()));
+    	assert Arrays.stream(basket.getItems())
+			    	.filter(item -> availabeMenu.containsKey(item.getId()))
+			    	.count() == basket.getItems().length;
+
+    	Arrays.stream(basket.getItems())
+    		.forEach(item -> orderBean.addItem(availabeMenu.get(item.getId()),	
+    											availabeMenu.get(item.getId()).getMenuType(),
+    											item.getQuantity()));
+		return orderBean;
+	}
+
+    @RequestMapping(value="getOrder/{orderId}" , produces="application/json")
+    public OrderDTO getOrder(@ModelAttribute("orderId") int orderId){
+        
+        LOG.info("Received request to getOrder for orderId: {}",orderId);
+        
+        Order order = orderService.getOrder(orderId);
+        
+        LOG.info("loaded the order: {} ", order);
+        return order.toOrderDTO();
     }
 
     private ModelAndView displayOrder(Order order) {

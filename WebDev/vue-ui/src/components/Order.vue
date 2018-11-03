@@ -1,6 +1,11 @@
 <template>
 <div v-if="displayOrders">
     <div id="ordersDiv" v-if="showOrders">
+
+      <div v-if="!Orders">
+        <p>No orders to display</p>
+      </div>
+      <div v-else>
         <p>All Your Previous Orders</p>
         <table id="orders">
             <th>Order Id</th>
@@ -16,6 +21,7 @@
                 <td>{{ order.status }} </td>
             </tr>
         </table>
+    </div>
     </div>
     <div id="orderDetailsDiv" v-if="!showOrders">
         <p><b> <u>This Order Details</u> </b></p>
@@ -63,13 +69,13 @@ export default {
   },
   created(){
     eventBus.$on('orderHistoryReloaded', ordersHistory => {
-      this.Orders = ordersHistory.body;
+      this.Orders = ordersHistory;
     })
   },
   data() {
     return {
       showOrders: true,
-      Orders: null,
+      Orders: [],
      /* Orders: [
           {
             id: 1,
