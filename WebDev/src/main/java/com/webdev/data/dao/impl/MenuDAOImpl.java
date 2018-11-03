@@ -6,12 +6,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.webdev.data.dao.MenuDAO;
 import com.webdev.data.model.MenuItem;
+import com.webdev.data.model.User;
 
 @Repository
 public class MenuDAOImpl implements MenuDAO{
@@ -70,7 +73,9 @@ public class MenuDAOImpl implements MenuDAO{
             
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<MenuItem> criteria = criteriaBuilder.createQuery(MenuItem.class);
-            criteria.select(criteria.from(MenuItem.class));
+            Root<MenuItem> menuItemCQ = criteria.from(MenuItem.class);
+            criteria.select(menuItemCQ);
+            criteria.where(criteriaBuilder.equal(menuItemCQ.get("inactive"), "N"));
             
             return entityManager.createQuery(criteria).getResultList();
 /*		Criteria criteria = sessionFactory.openSession().createCriteria(MenuItem.class);
