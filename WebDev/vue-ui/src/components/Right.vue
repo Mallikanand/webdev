@@ -78,7 +78,7 @@ export default {
     return {
       costOfOrder: 0,
       basket: {
-        userId: "a",
+        userId: null,
         orderItems: []
       },
       postOrderSubmission: false,
@@ -133,11 +133,11 @@ export default {
     },
     getBasketToSubmit: function() {
       var basketToSubmit = {
-        userId: "",
+        userId: null,
         items: []
       };
 
-      basketToSubmit.userId = this.basket.userId;
+      basketToSubmit.userId = this.$store.state.user.userId
       this.basket.orderItems.forEach(orderItem => {
         basketToSubmit.items.push({
           id: orderItem.id,

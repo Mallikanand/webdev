@@ -67,15 +67,20 @@ export default {
       this.showOrders = true;
     }
   },
-  created(){
-    eventBus.$on('orderHistoryReloaded', ordersHistory => {
-      this.Orders = ordersHistory;
-    })
+  computed: {
+    Orders () {
+      return this.$store.state.orders
+    }
   },
+  // created(){
+  //   eventBus.$on('orderHistoryReloaded', ordersHistory => {
+  //     this.Orders = ordersHistory;
+  //   })
+  // },
   data() {
     return {
-      showOrders: true,
-      Orders: [],
+      showOrders: true//,
+      //Orders: [],
      /* Orders: [
           {
             id: 1,

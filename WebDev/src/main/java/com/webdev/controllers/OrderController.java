@@ -31,7 +31,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
+//import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -112,7 +112,7 @@ public class OrderController {
         return displayOrder(order);
     }
 
-    @CrossOrigin(origins="http://localhost:3000",allowedHeaders="*")
+    //@CrossOrigin(origins="http://localhost:3000",allowedHeaders="*")
     @RequestMapping(value="getAllOrders",produces = "application/json")
     public Set<OrderDTO> getAllOrders(){
         
@@ -126,7 +126,7 @@ public class OrderController {
         		.collect(Collectors.toSet());
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    //@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="getAllOrders/{userId}",produces = "application/json")
     public Set<OrderDTO> getAllOrders(@ModelAttribute("userId") String userId){
         
@@ -140,7 +140,7 @@ public class OrderController {
         		.collect(Collectors.toSet());
     }
     
-    @CrossOrigin(origins="http://localhost:3000",allowedHeaders="*")
+    //@CrossOrigin(origins="http://localhost:3000",allowedHeaders="*")
     @RequestMapping(value="saveOrder", method=RequestMethod.POST, consumes="application/json", produces="application/json")
     public OrderDTO submitOrder(@RequestBody Basket basket){
     	

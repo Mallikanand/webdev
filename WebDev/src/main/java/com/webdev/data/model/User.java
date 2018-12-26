@@ -32,6 +32,9 @@ public class User implements Serializable{
     @Column(name ="gender",length=1, nullable=false)
     private char gender;
 
+    @Column(name ="password",length=250, nullable=false)
+    private String password;
+
     @OneToMany(mappedBy = "user" ,fetch = FetchType.LAZY)
     private Set<Order> orders;
 
@@ -85,5 +88,13 @@ public class User implements Serializable{
     public UserDTO toUserDTO(){
     	return new UserDTO(this.id,this.userId,this.firstName,this.lastName,this.gender);
     }
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }
 

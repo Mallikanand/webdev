@@ -17,6 +17,11 @@ export default {
       displayOrderHistory: false
     };
   },
+  computed: {
+      authenticated () {
+          return this.$store.state.authenticated
+      }
+    },
   components: {
     "show-order": Order,
     "show-menu": Menu
@@ -31,23 +36,28 @@ export default {
           .then(function(response){
             eventBus.$emit('menuReloaded',response.body);
           })
-        
       }
       if (selectedMenuOption.option_ref == '#orderHistory') {
-        this.displayMenu = false;
-        this.displayOrderHistory = true;
-           
-        this.$http.get("http://localhost:8080/orders/getAllOrders"
-        /*,
-                                              {
-                                                headers: {
-                                                  'Access-Control-Allow-Origin': 'http://localhost:3000'
-                                              }
-                                              }
-          */                                    
-         ).then(function(response){
-           eventBus.$emit('orderHistoryReloaded',response.body);
-         })
+        this.displayMenu = false
+        this.displayOrderHistory = true
+
+        if(!this.$store.state.authenticated){
+          this.$router.push('/login')
+        }else{
+
+          this.$http.get("http://localhost:8080/orders/getAllOrders/"+this.$store.state.user.userId
+          /*,
+                                                {
+                                                  headers: {
+                                                    'Access-Control-Allow-Origin': 'http://localhost:3000'
+                                                }
+                                                }
+            */                                    
+           ).then(function(response){
+             //eventBus.$emit('orderHistoryReloaded',response.body);
+             this.$store.dispatch('setOrders',response.body)
+           })
+        }
         
     
       }

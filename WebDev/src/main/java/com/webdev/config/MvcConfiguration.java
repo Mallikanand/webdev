@@ -49,6 +49,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/orders/**").allowedOrigins("http://localhost:3000");
 		registry.addMapping("/login/**").allowedOrigins("http://localhost:3000");
+		registry.addMapping("/login/**").allowedOrigins("http://www.facebook.com");
 	}
 
 	@Override

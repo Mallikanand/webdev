@@ -5,9 +5,9 @@
     <app-main></app-main>
     <app-right></app-right>
     <app-footer></app-footer>
+    <router-view/>
   </div>
 </template>
-
 <script>
 import Header from "./components/Header.vue";
 import Left from "./components/Left.vue";
@@ -22,7 +22,7 @@ export default {
       order: {
         id: ""
       }
-    };
+    }
   },
   components: {
     "app-header": Header,
@@ -32,8 +32,7 @@ export default {
     "app-footer": Footer
   },
 
-  methods: {
-  }
+  methods: {}
 };
 </script>
 
