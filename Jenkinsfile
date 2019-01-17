@@ -1,23 +1,24 @@
 pipeline {
-    agent any
-    tools {
-        maven 'maven3'
-        jdk 'jdk8'
+    agent {
+        docker {
+            image 'maven:3-alpine' 
+            args '-v /root/.m2:/root/.m2' 
+        }
     }
     stages {
-         stage ('Initialize') {
+        stage('Build') { 
             steps {
-                sh '''
-                    echo "PATH = ${PATH}"
-                    echo "M2_HOME = ${M2_HOME}"
-                    echo "JAVA_HOME = ${JAVA_HOME}"
-                ''' 
+                sh 'mvn -B -DskipTests clean package' 
             }
         }
-        stage('Install') {
+ 	stage('Test') {
             steps {
-
-                sh "mvn clean test"
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
             }
         }
     }
