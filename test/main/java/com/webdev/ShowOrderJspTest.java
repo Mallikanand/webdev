@@ -6,6 +6,7 @@
 package com.webdev;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
@@ -16,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.webdev.annotations.DefaultTestConfig;
+
 /**
  *
  * @author mkotra
@@ -23,6 +26,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 //@SpringBootTest(classes ={Application.class},webEnvironment=WebEnvironment.RANDOM_PORT)
 @SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DefaultTestConfig
+@Ignore
 public class ShowOrderJspTest {
   
     @LocalServerPort

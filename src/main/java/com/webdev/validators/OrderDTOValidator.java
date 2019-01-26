@@ -32,10 +32,14 @@ class OrderDTOValidator implements Validator {
         ValidationUtils.rejectIfEmpty(errors, "items" , "Order_cannot_have_no_items");
         
         if(orderBean.getItems()!=null){
-            orderBean.getItems().stream()
+            long count = orderBean.getItems().stream()
                 .filter(Objects::nonNull)
                 .filter(i -> i.getQuantity()< 1)
-                .peek(i -> errors.rejectValue("item.quantity", "Item Quantity must be atleast 1"));
+                .count();
+            
+            if(count>0){
+            	errors.reject("Item quantity cannot be < 1");
+            }
             
         }
     }

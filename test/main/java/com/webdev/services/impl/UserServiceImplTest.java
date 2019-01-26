@@ -3,6 +3,7 @@ package com.webdev.services.impl;
 import static org.junit.Assert.fail;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +27,19 @@ public class UserServiceImplTest {
 		Assert.assertEquals(user.getFirstName(),"A");
 	}
 
+	@Ignore
 	@Test
 	public void testSaveUser() {
 		fail("Not yet implemented");
 	}
 
+	@Ignore
 	@Test
 	public void testDeleteUser() {
 		fail("Not yet implemented");
 	}
 
+	@Ignore
 	@Test
 	public void testEditUser() {
 		fail("Not yet implemented");
