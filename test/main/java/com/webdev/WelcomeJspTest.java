@@ -13,9 +13,12 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.webdev.annotations.DefaultTestConfig;
+
 @RunWith(SpringRunner.class)
 //@SpringBootTest(classes ={Application.class},webEnvironment=WebEnvironment.RANDOM_PORT)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
+@DefaultTestConfig
 public class WelcomeJspTest {
 
     @LocalServerPort
