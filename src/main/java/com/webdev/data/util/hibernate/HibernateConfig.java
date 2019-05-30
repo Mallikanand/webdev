@@ -1,6 +1,7 @@
 package com.webdev.data.util.hibernate;
 
 import java.util.Properties;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,15 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-public class HibernateConfig {
+@EnableTransactionManagement
+public class HibernateConfig{
 
 	public static final String DIALECT = "org.hibernate.dialect.PostgreSQL9Dialect";
+	//public static final String DIALECT = "org.hibernate.dialect.H2Dialect";
 	
     @Autowired
     @Bean(name = "entityManagerFactoryBean")
@@ -50,7 +55,7 @@ public class HibernateConfig {
 
     @Autowired
     @Bean(name="jpaTransactionManager")
-    public JpaTransactionManager getJpaTransactionManager(LocalContainerEntityManagerFactoryBean entityManagerFactoryBean){
+    public PlatformTransactionManager getJpaTransactionManager(LocalContainerEntityManagerFactoryBean entityManagerFactoryBean){
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
          jpaTransactionManager.setEntityManagerFactory(entityManagerFactoryBean.getObject());
          return jpaTransactionManager;

@@ -1,8 +1,5 @@
 package com.webdev.data.model;
 
-import com.webdev.binding.OrderBean;
-import com.webdev.data.model.dto.MenuItemDTO;
-
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
@@ -11,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.webdev.data.model.dto.MenuItemDTO;
 
 
 //@TypeDef(name="MenuType",typeClass=MenuType.class)

@@ -7,6 +7,9 @@ insert into user_role( user_id, role) values ('a' , 'USER');
 insert into Users( user_id, password, first_name, last_name, gender, enabled) values ('b', 'bp', 'B', 'BL','M', true);
 insert into user_role(user_id, role) values ('b' , 'USER');
 
+insert into Users( user_id, password, first_name, last_name, gender, enabled) values ('admin', 'admin', 'ADMIN', 'ADMIN','M', true);
+insert into user_role(user_id, role) values ('admin' , 'ADMIN');
+
 /*
 
 insert into Users(id, user_id, password, first_name, last_name, gender, enabled) values (1, 'a', 'p', 'A', 'AL','M', true);

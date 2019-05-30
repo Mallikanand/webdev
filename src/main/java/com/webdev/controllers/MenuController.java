@@ -5,14 +5,15 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.webdev.data.model.MenuItem;
 import com.webdev.services.MenuService;
 
+@CrossOrigin(origins="http://localhost:3000",allowedHeaders="*")
 @RestController
-@RequestMapping("/menu")
 public class MenuController {
 
 	@Autowired
@@ -22,9 +23,15 @@ public class MenuController {
 		return menuService;
 	}
 	
-    @CrossOrigin(origins="http://localhost:3000",allowedHeaders="*")
-	@RequestMapping(produces="application/json")
+	@RequestMapping(value = "/menu" , produces="application/json")
 	public Map<String, List<MenuItem>> getMenu(){
+		return menuService.getMenuItemsByMenuType();
+	}
+
+    @RequestMapping(value = "/menu/delete/{menuItemId}", produces="application/json")
+	public Map<String, List<MenuItem>> deleteItem(@ModelAttribute("menuItemId") int menuItemId){
+		menuService.delete(menuItemId);
+		
 		return menuService.getMenuItemsByMenuType();
 	}
 

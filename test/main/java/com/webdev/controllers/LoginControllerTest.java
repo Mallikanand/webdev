@@ -1,18 +1,13 @@
 package com.webdev.controllers;
 
-import static org.junit.Assert.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.logout;
-import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
-import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,9 +22,8 @@ import org.springframework.web.context.WebApplicationContext;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.webdev.annotations.DefaultTestConfig;
-import com.webdev.data.model.dto.Basket;
+import com.webdev.data.model.UserRoleType;
 import com.webdev.data.model.dto.LoginFormDTO;
-import com.webdev.data.model.dto.OrderDTO;
 import com.webdev.data.model.dto.UserDTO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -76,7 +70,7 @@ public class LoginControllerTest {
     @Test
     public void test_Login() throws Exception{
 
-    	LoginFormDTO loginFormDTO = getLoginFormDTO();
+    	LoginFormDTO loginFormDTO = getLoginFormDTO("a","p");
     	
     	Gson gson = new GsonBuilder()
     			.setDateFormat("dd-MM-yyyy hh:mm:ss")
@@ -93,8 +87,39 @@ public class LoginControllerTest {
 		//System.out.println("responseAsJson: " + responseAsJson);
 		UserDTO userDTO = gson.fromJson(responseAsJson, UserDTO.class);
 		assertTrue(userDTO.getFirstName().equals("A"));
+		Assertions.assertThat(userDTO.getRoles()).isNotEmpty().allMatch(r -> UserRoleType.USER.name().equals(r));
+		Assertions.assertThat(userDTO.isAdmin()).isFalse();
+
 		System.out.println(responseAsJson);
     }
+    
+
+    @Test
+    public void test_Login_For_AdminUser() throws Exception{
+
+    	LoginFormDTO loginFormDTO = getLoginFormDTO("admin","admin");
+    	
+    	Gson gson = new GsonBuilder()
+    			.setDateFormat("dd-MM-yyyy hh:mm:ss")
+    			.create();
+    	
+    	String requestAsJson = gson.toJson(loginFormDTO);
+		String responseAsJson = this.mockMvc.perform(post("/login")
+								    			.contentType(MediaType.APPLICATION_JSON_VALUE)
+								    			.content(requestAsJson))
+									    	.andExpect(status().isOk())
+									    	.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+									    	.andReturn().getResponse().getContentAsString();
+    	
+		//System.out.println("responseAsJson: " + responseAsJson);
+		UserDTO userDTO = gson.fromJson(responseAsJson, UserDTO.class);
+		assertTrue(userDTO.getFirstName().equals("ADMIN"));
+		Assertions.assertThat(userDTO.isAdmin()).isTrue();
+
+		System.out.println(responseAsJson);
+    }
+    
+    
     
     @Test
     public void test_logout() throws Exception{
@@ -103,9 +128,9 @@ public class LoginControllerTest {
 	    	.andExpect(redirectedUrl("/"));
     }
 
-	private LoginFormDTO getLoginFormDTO() {
+	private LoginFormDTO getLoginFormDTO(String userId, String password) {
 		// TODO Auto-generated method stub
-		return new LoginFormDTO("a","p");
+		return new LoginFormDTO(userId, password);
 	}
 
     

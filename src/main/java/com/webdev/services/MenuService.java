@@ -3,9 +3,7 @@ package com.webdev.services;
 import java.util.List;
 import java.util.Map;
 
-import com.webdev.data.model.FoodType;
 import com.webdev.data.model.MenuItem;
-import com.webdev.data.model.MenuType;
 
 public interface MenuService {
 
@@ -14,4 +12,13 @@ public interface MenuService {
 	Map<String, List<MenuItem>> getMenuItemsByMenuType();
 
 	Map<String, List<MenuItem>> getMenuItemsByFoodType();
+
+	MenuItem getMenuItemById(int id);
+
+	MenuItem update(MenuItem menuItem);
+	
+	void saveItem(MenuItem menuItem);
+
+	void delete(MenuItem menuItem);
+	void delete(int menuItemId);
 }

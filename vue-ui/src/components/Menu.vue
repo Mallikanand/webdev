@@ -13,10 +13,13 @@
                         <td id="itemCategory">{{item.category}}</td-->
                         <td id="itemDesc">{{item.desc}}</td>
                         <td id="itemPrice">&#8377; {{item.price}}</td>
-                        <td>
+                        <td v-if="!isAdminUser">
                             <input v-on:click="addToBasket(item)"       type="button"   value="+"/>
                             <input v-on:blur ="adjustQuantity(item)"    type="text"     v-model="item.newQuantity" size="4"/>
                             <input v-on:click="removeFromBasket(item)"  type="button"   value="-"/>
+                        </td>
+                        <td v-if="isAdminUser">
+                            <input v-on:click="deleteItem(item)"       type="button"   value="Delete Item"/>
                         </td>
                     </tr>
                 </table>
@@ -51,7 +54,19 @@ export default {
       this.convertToUIFormat(menuItemsFromServer);
     })
   },
+  computed: {
+    isAdminUser () {
+      if(this.$store.state.user == null) return false; 
+      return  this.$store.state.user.admin
+    }
+  },
   methods: {
+    deleteItem: function(item) {
+        this.$http.get("http://localhost:8080/menu/delete/"+ item.id                                   
+           ).then(function(response){
+             eventBus.$emit('menuReloaded',response.body);
+           })
+    },
     addToBasket: function(item) {
         let _this = this;
         item.quantity++;

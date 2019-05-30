@@ -6,15 +6,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.webdev.data.dao.MenuDAO;
 import com.webdev.data.model.MenuItem;
-import com.webdev.data.model.User;
 
 @Repository
 public class MenuDAOImpl implements MenuDAO{
@@ -68,7 +65,6 @@ public class MenuDAOImpl implements MenuDAO{
 	}
 */	
 	@Override
-	@Transactional(value="jpaTransactionManager")
 	public List<MenuItem> getMenu(){
             
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -78,7 +74,29 @@ public class MenuDAOImpl implements MenuDAO{
             criteria.where(criteriaBuilder.equal(menuItemCQ.get("inactive"), "N"));
             
             return entityManager.createQuery(criteria).getResultList();
-/*		Criteria criteria = sessionFactory.openSession().createCriteria(MenuItem.class);
-            return criteria.list();*/
 	}
+
+	@Override
+	public MenuItem getMenuItemById(int id) {
+//		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+//		CriteriaQuery<MenuItem> criteriaQuery = criteriaBuilder.createQuery(MenuItem.class);
+//		Root<MenuItem> menuItemQuery = criteriaQuery.from(MenuItem.class);
+//		criteriaQuery.select(menuItemQuery);
+//		criteriaQuery.where(criteriaBuilder.equal(menuItemQuery.get("id"), id));
+//		
+		return entityManager.find(MenuItem.class, id);// createQuery(criteriaQuery).getSingleResult();
+		
+	}
+
+	@Override
+	public void saveMenuItem(MenuItem menuItem) {
+		entityManager.persist(menuItem);
+		
+	}
+	
+	@Override
+	public MenuItem update(MenuItem menuItem) {
+		return entityManager.merge(menuItem);
+	}
+		
 }

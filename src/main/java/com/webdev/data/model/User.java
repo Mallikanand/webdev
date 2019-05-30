@@ -2,6 +2,7 @@ package com.webdev.data.model;
 
 import java.io.Serializable;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import com.webdev.data.model.dto.UserDTO;
@@ -37,6 +39,10 @@ public class User implements Serializable{
 
     @OneToMany(mappedBy = "user" ,fetch = FetchType.LAZY)
     private Set<Order> orders;
+    
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name="user_id", referencedColumnName = "user_id")
+    private Set<UserRole> roles;
 
     public int getId() {
         return id;
@@ -86,7 +92,7 @@ public class User implements Serializable{
         this.orders = orders;
     }
     public UserDTO toUserDTO(){
-    	return new UserDTO(this.id,this.userId,this.firstName,this.lastName,this.gender);
+    	return new UserDTO(this.id,this.userId,this.firstName,this.lastName,this.gender, this.roles.stream().map(r -> r.getUserRole().name()).collect(Collectors.toSet()));
     }
 
 	public String getPassword() {
@@ -95,6 +101,19 @@ public class User implements Serializable{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public UserRole getUserRole() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Set<UserRole> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<UserRole> roles) {
+		this.roles = roles;
 	}
 }
 

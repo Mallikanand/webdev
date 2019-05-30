@@ -51,11 +51,18 @@
 </template>
 
 <script>
+import { eventBus } from "../main"
 
 export default {
   props: ['displayOrders'],
   name: "Order",
   currentOrder: '',
+  created() {
+    eventBus.$on('logoutSuccess',() => {
+          this.showOrders = false;
+          this.currentOrder = '';
+        })
+  },
   methods: {
     displayOrderDetails: function(order) {
       this.showOrders = false;

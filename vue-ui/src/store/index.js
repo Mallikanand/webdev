@@ -1,9 +1,12 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
+import { eventBus } from "../main"
+
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+
   state: {
     authenticated: false,
     user: null,
@@ -40,6 +43,7 @@ export default new Vuex.Store({
     deleteUserData (state) {
       state.orders = []
       state.recentOrder = null
+      eventBus.$emit("logoutSuccess")
     },
     saveOrders (state,orders) {
       state.orders = orders
