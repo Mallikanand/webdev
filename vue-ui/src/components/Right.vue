@@ -24,20 +24,20 @@
 
           <button v-if="basket.orderItems.length > 0" v-on:click="submitOrder">Submit Your Order</button>
       </div>
-      <div v-show="postOrderSubmission">
-        <p>Thanks for Placing your order. Your Submitted Order id is {{submittedOrder.id}} and its summary is below:</p>
+      <div v-if="recentOrder != null && postOrderSubmission">
+        <p>Thanks for Placing your order. Your Submitted Order id is {{recentOrder.id}} and its summary is below:</p>
         <table>
           <th>Item Name</th>
           <th>Quantity</th>
           <th>Item Price</th>
-          <tr v-for="item in submittedOrder.items" v-bind:key="item.id">
+          <tr v-for="item in recentOrder.items" v-bind:key="item.id">
             <td>{{item.menuItem.itemName}}</td>
             <td>{{item.quantity}}</td>
             <td>{{item.price}}</td>
           </tr>
           <tr>
               <td>Total Cost of the Order:</td>
-              <td><p>rs. {{submittedOrder.value}}</p></td>
+              <td><p>rs. {{recentOrder.value}}</p></td>
               <td></td>
             </tr>
         </table>
@@ -85,6 +85,11 @@ export default {
       submittedOrder: {}
     };
   },
+  computed: {
+    recentOrder () {
+      return this.$store.state.recentOrder
+    }
+  },
   methods: {
     removeItemFromBasket: function(item) {
       let _this = this;
@@ -118,6 +123,7 @@ export default {
 
           this.postOrderSubmission = true;
           this.submittedOrder = response.data;
+          this.$store.dispatch('recentOrder',response.body);
         });
     },
     clearBasket: function() {

@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     authenticated: false,
     user: null,
-    orders: []
+    orders: [],
+    recentOrder: null
   },
   actions: {
     loginSuccess ({commit}, userDetails) {
@@ -22,6 +23,9 @@ export default new Vuex.Store({
     },
     setOrders ({commit},orders) {
       commit('saveOrders',orders)
+    },
+    recentOrder({commit},recentOrder){
+      commit('setRecentOrder',recentOrder)
     }
   },
   mutations: {
@@ -35,9 +39,13 @@ export default new Vuex.Store({
     },
     deleteUserData (state) {
       state.orders = []
+      state.recentOrder = null
     },
     saveOrders (state,orders) {
       state.orders = orders
+    },
+    setRecentOrder (state, recentOrder){
+      state.recentOrder = recentOrder
     }
   },
   getters: {

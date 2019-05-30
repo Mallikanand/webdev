@@ -15,7 +15,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 @Configuration
 public class HibernateConfig {
 
-	public static final String DIALECT = "org.hibernate.dialect.PostgreSQLDialect";
+	public static final String DIALECT = "org.hibernate.dialect.PostgreSQL9Dialect";
 	
     @Autowired
     @Bean(name = "entityManagerFactoryBean")
@@ -41,6 +41,7 @@ public class HibernateConfig {
 
         properties.put("hibernate.show_sql", "true");
         properties.put("hibernate.format_sql", "true");
+        properties.put("hibernate.temp.use_jdbc_metadata_defaults", false);
         properties.put("hibernate.dialect", System.getProperty("hibernate_dialect" , DIALECT));
      
     return properties;
