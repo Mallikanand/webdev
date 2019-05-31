@@ -1,11 +1,11 @@
 <template>
     <div id="right" class="right">
-      <div v-show="!postOrderSubmission">
+      <div v-if="!postOrderSubmission && !isAdminUser">
         <p>Your Current Order is as below</p>
           <table>
             <th>Remove Item</th>
             <th>Item Name</th>
-            <th>Quantity</th>
+            <th>Quantity</th>f
             <th>Cost of the Item</th>
             <tr v-for="item in basket.orderItems" v-bind:key="item.id">
               <td><input text-align="centre" type="button" v-on:click="removeItemFromBasket(item)" value="x"/> 
@@ -21,10 +21,15 @@
             </tr>
           </table>
 
-
-          <button v-if="basket.orderItems.length > 0" v-on:click="submitOrder">Submit Your Order</button>
+          <div v-if="basket.orderItems.length > 0 && !isAuthenticated">
+            <p>Sign in to Submit your Order</p>
+            <button disabled>Submit Your Order</button>
+          </div>
+          <div v-else>
+            <button v-if="basket.orderItems.length > 0 && isAuthenticated && !isAdminUser" v-on:click="submitOrder">Submit Your Order</button>
+          </div>
       </div>
-      <div v-if="recentOrder != null && postOrderSubmission">
+      <div v-else-if="recentOrder != null && postOrderSubmission">
         <p>Thanks for Placing your order. Your Submitted Order id is {{recentOrder.id}} and its summary is below:</p>
         <table>
           <th>Item Name</th>
@@ -41,6 +46,11 @@
               <td></td>
             </tr>
         </table>
+      </div>
+      <div v-else-if="errorSubmittingOrder && postOrderSubmission">
+        <p> Sorry, we are unable to take your order due to following error.</p>
+        <p> {{this.errorDescription}}</p>
+
       </div>
     </div>
 </template>
@@ -82,12 +92,21 @@ export default {
         orderItems: []
       },
       postOrderSubmission: false,
+      errorSubmittingOrder: false,
+      errorDescription: null,
       submittedOrder: {}
     };
   },
   computed: {
     recentOrder () {
       return this.$store.state.recentOrder
+    },
+    isAuthenticated () {
+      return this.$store.state.authenticated
+    },
+    isAdminUser () {
+      if(this.$store.state.user == null) return false; 
+      return  this.$store.state.user.admin
     }
   },
   methods: {
@@ -119,11 +138,21 @@ export default {
           "Access-Control-Allow-Origin": "http://localhost:3000"
         })
         .then(response => {
-          if (response.status == 200) this.clearBasket();
-
+          this.clearBasket();
           this.postOrderSubmission = true;
-          this.submittedOrder = response.data;
-          this.$store.dispatch('recentOrder',response.body);
+            if (response.status == 200){
+              this.submittedOrder = response.data;
+              this.$store.dispatch('recentOrder',response.body);
+            }
+          },
+          response =>  {
+            this.clearBasket();
+            this.postOrderSubmission = true;
+            if(response.status != 200){
+              this.$store.dispatch('recentOrder', null);
+              this.errorSubmittingOrder = true;
+              this.errorDescription = response.data.message;
+            }
         });
     },
     clearBasket: function() {
@@ -136,6 +165,8 @@ export default {
       for(let i=0; i<basketItems.length; i++){
         _this.removeItemFromBasket(basketItems[i]);
       }
+
+      this.basket.orderItems = []
     },
     getBasketToSubmit: function() {
       var basketToSubmit = {

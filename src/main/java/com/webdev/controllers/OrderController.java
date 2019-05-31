@@ -10,15 +10,18 @@ import com.webdev.data.model.MenuItem;
 import com.webdev.data.model.Order;
 import com.webdev.data.model.User;
 import com.webdev.data.model.dto.Basket;
+import com.webdev.data.model.dto.BasketItem;
 import com.webdev.data.model.dto.OrderDTO;
 import com.webdev.services.MenuService;
 import com.webdev.services.OrderService;
 import com.webdev.services.UserService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -31,6 +34,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 //import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -134,6 +138,7 @@ public class OrderController {
         
         Set<Order> orders = orderService.getOrdersByUser(userId);
         
+        
         LOG.info("loaded the all orders: {} " , orders.size());
         return orders.stream()
         		.map(o -> o.toOrderDTO())
@@ -145,30 +150,41 @@ public class OrderController {
     public OrderDTO submitOrder(@RequestBody Basket basket){
     	
     	LOG.info("received Order Request: " + basket);
-    	validateBasket(basket);
+    	Map<Integer, MenuItem> availabeMenu = menuService.getAvailableMenu().stream().collect(Collectors.toMap(MenuItem::getId, Function.identity()));
+
+    	validateBasket(basket, availabeMenu);
     	
-    	OrderBean orderBean = createOrderBeanForBasket(basket);
+    	OrderBean orderBean = createOrderBeanForBasket(basket, availabeMenu);
     	Order order = conversionService.convert(orderBean, Order.class);
     	orderService.save(order);
     	
     	return order.toOrderDTO();
     }
 
-	private void validateBasket(Basket basket) {
-		assert basket.getUserId() != null;
-    	assert basket.getItems()!=null && basket.getItems().length>0;
+	private void validateBasket(Basket basket, Map<Integer, MenuItem> availabeMenu) {
+		if(basket.getUserId() == null) throw new IllegalArgumentException("User Details booking this order is necessary, may be not logged in? ");
+		if(basket.getItems()==null || basket.getItems().length==0 )  throw new IllegalArgumentException("No Items in the basket ");
+		
+		 List<BasketItem> invalidBasketItems = Arrays.stream(basket.getItems())
+			    	.filter(item -> !availabeMenu.containsKey(item.getId()))
+			    	.collect(Collectors.toList());
+		
+		 String invalidItems = (String) Optional.ofNullable(invalidBasketItems).orElse(new ArrayList()).stream()
+							    	 .map(invalidBasketItem -> ((BasketItem)invalidBasketItem).getItemName())
+							    	 .collect(Collectors.joining(","));
+		 
+		 if(!StringUtils.isEmpty(invalidItems)) {
+			 throw new IllegalArgumentException("Invalid Items found in the basket: " + invalidItems);
+		 }
 	}
 
-	private OrderBean createOrderBeanForBasket(Basket basket) {
+	private OrderBean createOrderBeanForBasket(Basket basket, Map<Integer, MenuItem> availabeMenu) {
 		OrderBean orderBean = new OrderBean();
     	//orderBean.setUser(getAuthenticatedUser());//TODO
-    	Map<Integer, MenuItem> availabeMenu = menuService.getAvailableMenu().stream().collect(Collectors.toMap(MenuItem::getId, Function.identity()));
     	
     	orderBean.setUser(userService.getUser(basket.getUserId()));
-    	assert Arrays.stream(basket.getItems())
-			    	.filter(item -> availabeMenu.containsKey(item.getId()))
-			    	.count() == basket.getItems().length;
-
+    	
+    	 
     	Arrays.stream(basket.getItems())
     		.forEach(item -> orderBean.addItem(availabeMenu.get(item.getId()),	
     											availabeMenu.get(item.getId()).getMenuType(),
